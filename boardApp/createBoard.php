@@ -1,25 +1,33 @@
 <?php
 session_start();
 if(!isset($_SESSION['is_login'])){
-	header('Location: ./loginForm.html');
+	header('Location: http://localhost/shPrj/loginApp/loginForm.html');
+}
+
+$host = 'localhost';
+$user = 'root';
+$pw = '111111';
+$dbName = 'myTest';
+$writer = $_POST['writer'];
+$email = $_POST['email'];
+$passwd = $_POST['passwd'];
+$subject = $_POST['subject'];
+$content = $_POST['content'];
+
+if (empty($writer) || empty($email) || empty($passwd) || empty($subject) || empty($content)) {
+	echo "빈칸을 모두 채워주세요.";
+} else {
+	$conn = mysqli_connect($host, $user, $pw, $dbName);
+
+	if (!$conn) {
+		die("Connection failed: " .mysqli_connect_error());
+	}
+
+	$sql = "insert into boardtest (writer, subject, email, passwd, content, creatDate, modifyDate) values ('$writer', '$subject', '$email', '$passwd', '$content', now(), now())";
+	mysqli_query($conn, $sql);
+
+	mysqli_close($conn);
+	$result = "1";
+	echo "{$result}";
 }
 ?>
-
-<html>
-<head>
-	<meta charset="utf-8" />
-</head>
-<body>
-<p>게시판 글쓰기<br>
-<form>
-	글목록으로 가기
-	이름
-	제목
-	이메일
-	내용
-	비밀번호
-
-	글쓰기 버튼 / 다시작성 / 목록보기
-</form>
-</body>
-</html>
