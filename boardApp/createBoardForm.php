@@ -40,7 +40,7 @@ if(!isset($_SESSION['is_login'])){
 				<td colspan="2" >
 					<input type="button" name="textSave" id="textSave" value="글 저장하기" >
 					<input type="reset" value="다시작성" >
-					<input type="button" name="" value="되돌아가기" >
+					<a href="boardIndex.php"><input type="button" name="" value="되돌아가기" ></a>
 				</td>
 			</tr>
 		</table>
