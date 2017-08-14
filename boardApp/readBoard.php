@@ -67,30 +67,47 @@ $result = mysqli_query($conn, $sql);
 		//댓글 없음
 	} else {
 
-		$sql_cmt = "select commemt_id, name, commentDate, comment from comment_test where board_num='$num' order by commemt_id desc";
+		$sql_cmt = "select comment_id, name, commentDate, comment from comment_test where board_num='$num' order by comment_id desc";
 		$result_cmt = mysqli_query($conn, $sql_cmt);
 ?>	
 	<p>-------------------------------------<br>
 	<p>댓글임<br>
-	<table>
 	<?php
-		while($row_cmt = mysqli_fetch_array($result_cmt)) {
+		while ($row_cmt = mysqli_fetch_array($result_cmt)) {
 	?>
+	<form method="post" action="updateComment.php?num=<?=$num?>&cmt=<?=$_GET['cmt']?>">
+	<table>
 		<tr>
 			<td><?= $row_cmt['name'] ?></td>
 			<td><?= $row_cmt['commentDate'] ?></td>
-			<td>수정</td>
-			<td>삭제</td>
+	<?php
+	//if로 구분예정 / 댓글번호도 get으로 넘긴당
+			if ($_GET['cmt'] == $row_cmt['comment_id']) {
+			//url의 cmt 값과 DB의 commemt_id 값이 일치하면 수정페이지로 변경
+	?>	
+		</tr>
+		<tr>
+			<td colspan="2" ><textarea name="commentUpdate" ><?= $row_cmt['comment'] ?></textarea></td>
+			<td><input type="submit" value="수정"></td>
+		</tr>
+	<?php
+			} else {
+	?>
+			<td><a href="readBoard.php?num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a></td>
+			<td><input type="button" name="commentDelete" class="commentDelete" id="num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
+			<!-- id에 게시판번호와 댓글번호를 저장 -->
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2" ><?= $row_cmt['comment'] ?></td>
 			<td>답글</td>
 		</tr>
 	<?php
+			}
 		}
 	?>
 	</table>
-
+	</form>
 <?php
 	}
 mysqli_close($conn);
@@ -113,4 +130,6 @@ mysqli_close($conn);
 	</table>
 	</form>
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="board.js"></script>
 </html>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['is_login'])){
-	header('Location: ./loginForm.html');
+	header('Location: http://localhost/shPrj/loginApp/loginForm.html');
 }
 
 include "db_info.php";
