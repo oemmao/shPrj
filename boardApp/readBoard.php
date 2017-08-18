@@ -12,6 +12,7 @@ $pw = '111111';
 $dbName = 'myTest';
 
 $num = $_GET['num'];
+$page = $_GET['page'];
 
 $conn = mysqli_connect($host, $user, $pw, $dbName);
 
@@ -51,13 +52,38 @@ $result = mysqli_query($conn, $sql);
 		</tr>
 		<tr>
 			<td colspan="4">
-			<a href="boardIndex.php"><input type="button" name="" value="목록보기" ></a>
+			<a href="boardIndex.php?page=<?=$page?>"><input type="button" name="" value="목록보기" ></a>
 			<a href="createBoardForm.php"> <input type="button" name="" value="글쓰기" ></a>
 			<a href="updateBoardForm.php?num=<?=$num ?>"> <input type="button" value="수정" ></a>
 			<a href="deleteBoardForm.php?num=<?=$num ?>"><input type="button" value="삭제" ></a>
 			</td>
 		</tr>
+<!-- 이전/다음글 소스 -->
+		<tr>
+			<td colspan="4" >
+			<?php
+				//현재글번호에서 다음으로 큰 번호를 하나 가져옴 //오름차순 정렬
+				$sql_next = "select num from boardtest where num > $num limit 1";
+				$next_num = mysqli_query($conn, $sql_next);
+				$next_text = mysqli_fetch_array($next_num); 
+				//echo "{$next_text['num']}";
+				if ($next_text[num]) {
+					echo "<a href='readBoard.php?num=$next_text[num]'>[▲다음글]</a>";
+				}
+				
+				$sql_prev = "select num from boardtest where num < $num order by num desc limit 1";
+				$prev_num = mysqli_query($conn, $sql_prev);
+				$prev_text = mysqli_fetch_array($prev_num); 
+				//echo "{$prev_text[num]}";
+				if ($prev_text[num]) {
+					echo "<a href='readBoard.php?num=$prev_text[num]'>[▼이전글]</a>";
+				}
+			?>		
+			</td>
+		</tr>
 	</table>
+
+<!-- 댓글 소스 -->
 <?php
 	//댓글 유무 확인 //boardtest DB에서 cmtCount에 댓글 갯수 저장함 
 	$sql_check = "select cmtCount from boardtest where num='$num'";
@@ -75,7 +101,7 @@ $result = mysqli_query($conn, $sql);
 	<?php
 		while ($row_cmt = mysqli_fetch_array($result_cmt)) {
 	?>
-	<form method="post" action="updateComment.php?num=<?=$num?>&cmt=<?=$_GET['cmt']?>">
+	<form method="post" action="updateComment.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$_GET['cmt']?>">
 	<table>
 		<tr>
 			<td><?= $row_cmt['name'] ?></td>
@@ -93,7 +119,7 @@ $result = mysqli_query($conn, $sql);
 	<?php
 			} else {
 	?>
-			<td><a href="readBoard.php?num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a></td>
+			<td><a href="readBoard.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a></td>
 			<td><input type="button" name="commentDelete" class="commentDelete" id="num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
 			<!-- id에 게시판번호와 댓글번호를 저장 -->
 			</td>
@@ -113,7 +139,7 @@ $result = mysqli_query($conn, $sql);
 mysqli_close($conn);
 ?>	
 	<p>-------------------------------------<br>
-	<form method="post" action="createComment.php?num=<?=$num ?>" >
+	<form method="post" action="createComment.php?page=<?=$page?>&num=<?=$num ?>" >
 	<table>
 		<tr>
 			<td>이름<br>

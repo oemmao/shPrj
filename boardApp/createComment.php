@@ -7,6 +7,7 @@ if(!isset($_SESSION['is_login'])){
 include "db_info.php";
 
 $num = $_GET['num'];
+$page = $_GET['page'];
 $writer = $_POST['commentWriter'];
 $passwd = $_POST['commentPasswd'];
 $comment = $_POST['comment'];
@@ -32,6 +33,6 @@ if (empty($writer) || empty($passwd) || empty($comment)) {
 	mysqli_close($conn);
 
 	echo "<script>alert(\"댓글이 등록되었습니다.\");
-				document.location.href='readBoard.php?num=$num';</script>";
+				document.location.href='readBoard.php?page=$page&num=$num';</script>";
 }
 ?>
