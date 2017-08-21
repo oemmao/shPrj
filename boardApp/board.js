@@ -30,17 +30,24 @@ $(function(){
 
 	$(".commentDelete").click(function() {
 		var cmt = $(this).attr('id');
-		//alert(cmt);
+//		alert(cmt);
+//		alert('deleteComment.php?'+ cmt);
 		//id에 저장한 값 가져옴 (게시판번호와 댓글번호)
 
 		var result = confirm('댓글을 삭제하시겠습니까?');
 		if (result) {
 			//alert('삭제 고고');
-			location.replace('deleteComment.php?cmt='+ cmt);
+			location.replace('deleteComment.php?'+ cmt);
 		} else {
 			//alert('삭제 안해');
 		}
 		
+	});
+
+	$(".cmtReply").click(function() {
+		alert("come in");
+		$(".c_commentForm").toggle();
+
 	});
 
 //	$("#commentDelete").click(function() {

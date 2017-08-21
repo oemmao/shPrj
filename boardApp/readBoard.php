@@ -6,19 +6,10 @@ if(!isset($_SESSION['is_login'])){
 
 echo "게시글 읽기";
 
-$host = 'localhost';
-$user = 'root';
-$pw = '111111';
-$dbName = 'myTest';
+include "db_info.php";
 
 $num = $_GET['num'];
 $page = $_GET['page'];
-
-$conn = mysqli_connect($host, $user, $pw, $dbName);
-
-if (!$conn) {
-	die("Connection failed: " .mysqli_connect_error());
-}
 
 $sql = "select * from boardtest where num='$num'";
 $result = mysqli_query($conn, $sql);
@@ -83,6 +74,25 @@ $result = mysqli_query($conn, $sql);
 		</tr>
 	</table>
 
+<!-- 댓글 폼 -->
+	<p>------------------------------------------------------------<br>
+	<form method="post" action="createComment.php?page=<?=$page?>&num=<?=$num ?>" >
+	<table>
+		<tr>
+			<td>이름<br>
+				<input type="text" name="commentWriter" >
+			</td>
+			<td><textarea name="comment" ></textarea></td>
+			<td><input type="submit" value="댓글등록" ></td>
+		</tr>
+		<tr>
+			<td>비밀번호<br>
+				<input type="password"  name="commentPasswd" >
+			</td>
+		</tr>
+	</table>
+	</form>
+
 <!-- 댓글 소스 -->
 <?php
 	//댓글 유무 확인 //boardtest DB에서 cmtCount에 댓글 갯수 저장함 
@@ -93,10 +103,30 @@ $result = mysqli_query($conn, $sql);
 		//댓글 없음
 	} else {
 
-		$sql_cmt = "select comment_id, name, commentDate, comment from comment_test where board_num='$num' order by comment_id desc";
+		$cmt_total_count = $row['cmtCount'];
+		$cmtPage = ($_GET['cmtPage'])? $_GET['cmtPage'] : 1; //댓글 페이지
+		$cmt_list = 3;
+		$cmt_block = 3;
+
+		$cmtNum = ceil($cmt_total_count / $cmt_list); // 총 페이지
+		$cmtBlockNum = ceil($cmtNum / $cmt_block); //총 블록
+		$cmtNowBlock = ceil($cmtPage / $cmt_block); //현재 블록 위치
+
+		$start_cmt = ($cmtNowBlock - 1) * $cmt_block + 1; //블록 처음 페이지
+		if ($start_cmt <= 1) {
+			$start_cmt = 1;
+		}
+
+		$end_cmt = $cmtNowBlock * $cmt_block; //블록 마지막 페이지
+		if ($cmtNum <= $end_cmt) {
+			$end_cmt = $cmtNum;
+		}
+		
+		$start_cmt_num = ($cmtPage - 1) * $cmt_list;
+		$sql_cmt = "select comment_id, name, commentDate, comment from comment_test where board_num='$num' order by comment_id desc limit $start_cmt_num, $cmt_list";
 		$result_cmt = mysqli_query($conn, $sql_cmt);
 ?>	
-	<p>-------------------------------------<br>
+	<p>------------------------------------------------------------<br>
 	<p>댓글임<br>
 	<?php
 		while ($row_cmt = mysqli_fetch_array($result_cmt)) {
@@ -120,13 +150,13 @@ $result = mysqli_query($conn, $sql);
 			} else {
 	?>
 			<td><a href="readBoard.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a></td>
-			<td><input type="button" name="commentDelete" class="commentDelete" id="num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
+			<td><input type="button" name="commentDelete" class="commentDelete" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
 			<!-- id에 게시판번호와 댓글번호를 저장 -->
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2" ><?= $row_cmt['comment'] ?></td>
-			<td>답글</td>
+			<td><input type="button" class="cmtReply" value="[답글]" ></td>
 		</tr>
 	<?php
 			}
@@ -134,27 +164,71 @@ $result = mysqli_query($conn, $sql);
 	?>
 	</table>
 	</form>
-<?php
-	}
-mysqli_close($conn);
-?>	
-	<p>-------------------------------------<br>
-	<form method="post" action="createComment.php?page=<?=$page?>&num=<?=$num ?>" >
+
+<!-- 대댓글 폼 -->
+	<div class="c_commentForm">
+	<form method="post" action="#" >
 	<table>
 		<tr>
 			<td>이름<br>
-				<input type="text" name="commentWriter" >
+				<input type="text" name="c_commentWriter" >
 			</td>
-			<td><textarea name="comment" ></textarea></td>
+			<td><textarea name="c_comment" ></textarea></td>
 			<td><input type="submit" value="댓글등록" ></td>
 		</tr>
 		<tr>
 			<td>비밀번호<br>
-				<input type="password"  name="commentPasswd" >
+				<input type="password"  name="c_commentPasswd" >
 			</td>
 		</tr>
 	</table>
 	</form>
+	</div>
+
+<?php
+	}
+mysqli_close($conn);
+
+	if ($start_cmt > $cmtNowBlock) {
+		$prev_cmt = $start_cmt - 1;
+	echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$prev_cmt'>이전</a>";
+	}
+	
+	//페이지리스트 출력
+	for ($i = $start_cmt; $i <= $end_cmt; $i++) {
+		//현재 페이지를 제외한 페이지에만 링크 생성하기 위해 
+		if ($cmtPage != $i) {
+			echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$i'>";
+		}
+		echo "[$i]&nbsp";
+		//현재 페이지를 제외한 페이지에만 링크 생성하기 위해 
+		if ($cmtPage != $i) {
+			echo "</a>";
+		}
+	}
+
+	if ($cmtNowBlock < $cmtBlockNum ) {
+	$next_cmt = $end_cmt + 1;
+	echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$next_cmt'>다음</a>";
+	}
+?>	
+<!-- 	<p>-------------------------------------<br> -->
+<!-- 	<form method="post" action="createComment.php?page=<?=$page?>&num=<?=$num ?>" > -->
+<!-- 	<table> -->
+<!-- 		<tr> -->
+<!-- 			<td>이름<br> -->
+<!-- 				<input type="text" name="commentWriter" > -->
+<!-- 			</td> -->
+<!-- 			<td><textarea name="comment" ></textarea></td> -->
+<!-- 			<td><input type="submit" value="댓글등록" ></td> -->
+<!-- 		</tr> -->
+<!-- 		<tr> -->
+<!-- 			<td>비밀번호<br> -->
+<!-- 				<input type="password"  name="commentPasswd" > -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
+<!-- 	</table> -->
+<!-- 	</form> -->
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="board.js"></script>
