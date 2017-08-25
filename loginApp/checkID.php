@@ -1,14 +1,9 @@
 <?php
 
-$host = 'localhost:3307';
-$user = 'root';
-$pw = '111111';
-$dbName = 'myTest';
+include "db_info.php";
 $userID = $_POST['insertID'];
 
-$conn = mysqli_connect($host,$user,$pw,$dbName);
-
-$sql = "select * from loginTest where leaveCheck='F' and userID='$userID'";
+$sql = "select * from logintest where leaveCheck='F' and userID='$userID'";
 $result = mysqli_query($conn, $sql);
 $count = mysqli_num_rows($result);
 

@@ -4,10 +4,9 @@ if(!isset($_SESSION['is_login'])){
 	header('Location: http://localhost/shPrj/loginApp/loginForm.html');
 }
 
-$host = 'localhost';
-$user = 'root';
-$pw = '111111';
-$dbName = 'myTest';
+include "../loginApp/db_info.php";
+//한글깨짐을 방지하기 위해 캐릭터셋을 설정해준당
+header("Content-Type:text/html;charset=utf-8");
 $num = $_GET['num'];
 $writer = $_POST['writer'];
 $email = $_POST['email'];
@@ -19,9 +18,6 @@ if (empty($writer) || empty($email) || empty($passwd) || empty($subject) || empt
 	echo "<script>alert(\"빈칸을 모두 채워주세요.\");
 			history.go(-1);</script>";
 } else {
-
-	$conn = mysqli_connect($host, $user, $pw, $dbName);
-
 	if (!$conn) {
 			die("Connection failed: " .mysqli_connect_error());
 	}

@@ -2,10 +2,9 @@
 
 session_start();
 
-$host = 'localhost:3307';
-$user = 'root';
-$pw = '111111';
-$dbName = 'myTest';
+include "db_info.php";
+//한글깨짐을 방지하기 위해 캐릭터셋을 설정해준당
+header("Content-Type:text/html;charset=utf-8");
 $userID = $_POST['id'];
 $userPW = $_POST['pw'];
 
@@ -16,14 +15,11 @@ if ($userID=="" || $userPW=="") {
 	echo "<script>alert(\"ID 또는 PW를 입력해 주세요.\");
 			document.location.href='loginForm.html';</script>";
 } else {
-
-	$conn = mysqli_connect($host,$user,$pw,$dbName); //DB 연결
-
 	if(!$conn) { //DB 연결이 되지 않으면 에러발생
 		die("Connection failed: " . mysqli_connect_error());
 	} 
 
-	$sql = "select userName from loginTest where userID='$userID' and userPW='$userPW' and leaveCheck='F'";
+	$sql = "select userName from logintest where userID='$userID' and userPW='$userPW' and leaveCheck='F'";
 	//loginForm.html에서 입력한 ID와 PW가 DB에 있는지 확인
 	$result = mysqli_query($conn, $sql); //query 줌
 	$count = mysqli_num_rows($result); 

@@ -4,8 +4,10 @@ if(!isset($_SESSION['is_login'])){
 	header('Location: ./loginForm.html');
 }
 
-include "db_info.php";
- 
+include "../loginApp/db_info.php";
+//한글깨짐을 방지하기 위해 캐릭터셋을 설정해준당
+header("Content-Type:text/html;charset=utf-8");
+
 $sql = "select * from boardtest order by num desc";
 $result = mysqli_query($conn,$sql);
 //DB의 총 row(행) 개수를 반환하는 함수(총 게시물 수를 구할 때 사용)

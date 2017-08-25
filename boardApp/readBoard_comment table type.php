@@ -6,13 +6,10 @@ if(!isset($_SESSION['is_login'])){
 
 echo "게시글 읽기";
 
-include "../loginApp/db_info.php";
-//한글깨짐을 방지하기 위해 캐릭터셋을 설정해준당
-header("Content-Type:text/html;charset=utf-8");
+include "db_info.php";
 
 $num = $_GET['num'];
-//이전글/다음글을 본 후 목록으로 돌아올때 page를 지정해 주기위해 
-$page = ($_GET['page'])? $_GET['page'] : 1;
+$page = $_GET['page'];
 
 $sql = "select * from boardtest where num='$num'";
 $result = mysqli_query($conn, $sql);
@@ -20,40 +17,6 @@ $result = mysqli_query($conn, $sql);
 <html>
 <head>
 	<meta charset="utf-8" />
-	<style>
-		.div_table {
-			width: 500px;
-			margin: 10px;
-		}
-		.div_table ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
-		.div_table ul li {
-			float: left;
-		}
-		.li_table_w {
-			width: 100px;
-		}
-		.li_table_d {
-			width: 300px;
-		}
-		.li_table_u {
-			width: 100px;
-		}
-		.li_table_c {
-			width: 400px;
-			height: 30px;
-		}
-		.li_table_r {
-			width: 100px;
-			height: 30px;
-		}
-		.reply {
-			width: 100%;
-		}
-	</style>
 </head>
 <body>
 	<table>
@@ -165,53 +128,41 @@ $result = mysqli_query($conn, $sql);
 ?>	
 	<p>------------------------------------------------------------<br>
 	<p>댓글임<br>
-	<p>ul li로 작성<br>
 	<?php
 		while ($row_cmt = mysqli_fetch_array($result_cmt)) {
 	?>
 	<form method="post" action="updateComment.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$_GET['cmt']?>">
-	<div class="div_table" >
-		<ul class="ul_table" >
-			<li class="li_table_w" ><?= $row_cmt['name'] ?></li>
-			<li class="li_table_d" ><?= $row_cmt['commentDate'] ?></li>
+	<table>
+		<tr>
+			<td><?= $row_cmt['name'] ?></td>
+			<td><?= $row_cmt['commentDate'] ?></td>
 	<?php
-		//if로 구분예정 / 댓글번호도 get으로 넘긴당
+	//if로 구분예정 / 댓글번호도 get으로 넘긴당
 			if ($_GET['cmt'] == $row_cmt['comment_id']) {
-			//url의 cmt 값과 DB의 commemt_id 값이 일치하면 수정페이지로 변경	
-	?>
-		</ul>
-		<ul class="ul_table" >
-		<li class="li_table_c" ><textarea name="commentUpdate" ><?= $row_cmt['comment'] ?></textarea></li>
-		<li class="li_table_r" ><input type="submit" value="수정완료"></li>
-		</ul>
-
+			//url의 cmt 값과 DB의 commemt_id 값이 일치하면 수정페이지로 변경
+	?>	
+		</tr>
+		<tr>
+			<td colspan="2" ><textarea name="commentUpdate" ><?= $row_cmt['comment'] ?></textarea></td>
+			<td><input type="submit" value="수정"></td>
+		</tr>
 	<?php
 			} else {
 	?>
-
-			<li class="li_table_u" ><a href="readBoard.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a>
-			<input type="button" name="commentDelete" class="commentDelete" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
-			<!-- id에 게시판번호와 댓글번호를 저장 --></li>
-		</ul>
-		<ul class="ul_table" >
-			<li class="li_table_c" ><?= $row_cmt['comment'] ?></li>
-			<li class="li_table_r" ><input type="button" value="[답글]" ></li>
-			<li class="reply" >
-				<div>
-					<table>
-						<tr>
-							<td>reply test</td>
-						</tr>
-					</table>
-				</div>
-			</li>
-		</ul>
-	</div>
-
+			<td><a href="readBoard.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a></td>
+			<td><input type="button" name="commentDelete" class="commentDelete" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
+			<!-- id에 게시판번호와 댓글번호를 저장 -->
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" ><?= $row_cmt['comment'] ?></td>
+			<td><input type="button" class="cmtReply" value="[답글]" ></td>
+		</tr>
 	<?php
 			}
 		}
 	?>
+	</table>
 	</form>
 
 <!-- 대댓글 폼 -->
@@ -234,45 +185,33 @@ $result = mysqli_query($conn, $sql);
 <!-- 	</form> -->
 <!-- 	</div> -->
 
-
-	<div class="div_table" >
-		<ul class="ul_table" >
-			<li>
-			<?php
-				if ($start_cmt > $cmtNowBlock) {
-					$prev_cmt = $start_cmt - 1;
-				echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$prev_cmt'>이전</a>";
-				}
-				//댓글 페이지리스트 출력
-				for ($i = $start_cmt; $i <= $end_cmt; $i++) {
-					//댓글수가 $cmt_list보다 작으면 페이지 표시 안함
-					if ($row['cmtCount'] < $cmt_list) {
-						
-					} else {
-					//현재 페이지를 제외한 페이지에만 링크 생성하기 위해 
-						if ($cmtPage != $i) {
-							echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$i'>";
-						}
-						echo "[$i]&nbsp";
-						//현재 페이지를 제외한 페이지에만 링크 생성하기 위해 
-						if ($cmtPage != $i) {
-							echo "</a>";
-						}
-					}
-				}
-
-				if ($cmtNowBlock < $cmtBlockNum ) {
-				$next_cmt = $end_cmt + 1;
-				echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$next_cmt'>다음</a>";
-				}
-			?>	
-			</li>
-		</ul>
-	</div>
 <?php
 	}
 mysqli_close($conn);
-?>
+
+	if ($start_cmt > $cmtNowBlock) {
+		$prev_cmt = $start_cmt - 1;
+	echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$prev_cmt'>이전</a>";
+	}
+	
+	//댓글 페이지리스트 출력
+	for ($i = $start_cmt; $i <= $end_cmt; $i++) {
+		//현재 페이지를 제외한 페이지에만 링크 생성하기 위해 
+		if ($cmtPage != $i) {
+			echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$i'>";
+		}
+		echo "[$i]&nbsp";
+		//현재 페이지를 제외한 페이지에만 링크 생성하기 위해 
+		if ($cmtPage != $i) {
+			echo "</a>";
+		}
+	}
+
+	if ($cmtNowBlock < $cmtBlockNum ) {
+	$next_cmt = $end_cmt + 1;
+	echo "<a href='$PHP_SELF?page=$page&num=$num&cmtPage=$next_cmt'>다음</a>";
+	}
+?>	
 <!-- 	<p>-------------------------------------<br> -->
 <!-- 	<form method="post" action="createComment.php?page=<?=$page?>&num=<?=$num ?>" > -->
 <!-- 	<table> -->

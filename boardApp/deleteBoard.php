@@ -4,15 +4,12 @@ if(!isset($_SESSION['is_login'])){
 	header('Location: ./loginForm.html');
 }
 
-$host = 'localhost';
-$user = 'root';
-$pw = '111111';
-$dbName = 'myTest';
+include "../loginApp/db_info.php";
+//한글깨짐을 방지하기 위해 캐릭터셋을 설정해준당
+header("Content-Type:text/html;charset=utf-8");
 
 $num = $_GET['num'];
 $passwd = $_POST['passwd'];
-
-$conn = mysqli_connect($host, $user, $pw, $dbName);
 
 if (!$conn) { 
 	die("Connection failed: " .mysqli_connect_error());

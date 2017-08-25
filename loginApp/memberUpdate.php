@@ -5,22 +5,25 @@ if(!isset($_SESSION['is_login'])){
 //    echo "<script>document.location.href='loginForm.html';</script>";
 }
 
-$host = 'localhost:3307';
-$user = 'root';
-$pw = '111111';
-$dbName = 'myTest';
+include "db_info.php";
+//한글깨짐을 방지하기 위해 캐릭터셋을 설정해준당
+header("Content-Type:text/html;charset=utf-8");
 $userID = $_POST['id'];
 $userPW = $_POST['pw'];
 $userName = $_POST['name'];
-
-$conn = mysqli_connect($host,$user,$pw,$dbName);
 
 if (!$conn) {
 	die("Connection failed: " .mysqli_connect_error());
 }
 
-$sql = "update loginTest set userPW='$userPW', userName='$userName', userModifyDate=now() where userID='$userID'";
+$sql = "update logintest set userPW='$userPW', userName='$userName', userModifyDate=now() where userID='$userID'";
+mysqli_query($conn, $sql);
+
+//정보수정 후, 수정된 유저이름을 가져오기 위해 사용
+$sql = "select userName from logintest where userID='$userID'";
 $result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$_SESSION['userName'] = $row['userName'];
 
 header('Location: ./loginSession.php');
 
