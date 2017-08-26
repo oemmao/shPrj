@@ -44,6 +44,21 @@ $(function(){
 		
 	});
 
+	$(".cmtReply_button").click(function() {
+		alert("cmtReply show");
+		var cmt_id = $(this).attr('id');
+		var reply_id = $(".reply").attr('id');
+		alert(reply_id);
+//		location.replace('createComment_Cmt.php?' + cmt_id);
+//		var reply_id = $(".reply").attr('id');
+//		alert("cmt_id: "+cmt_id + "reply_id: " +reply_id );
+//		if (cmt_id == reply_id) {
+//			$(".reply").show();
+//		}
+		
+	});
+
+
 	$(".cmtReply").click(function() {
 		alert("come in");
 		$(".c_commentForm").toggle();

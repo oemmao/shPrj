@@ -52,6 +52,11 @@ $result = mysqli_query($conn, $sql);
 		}
 		.reply {
 			width: 100%;
+			padding-left: 20px;
+			display: none;
+		}
+		.replyMark {
+			padding: 0px;
 		}
 	</style>
 </head>
@@ -195,12 +200,21 @@ $result = mysqli_query($conn, $sql);
 		</ul>
 		<ul class="ul_table" >
 			<li class="li_table_c" ><?= $row_cmt['comment'] ?></li>
-			<li class="li_table_r" ><input type="button" value="[답글]" ></li>
-			<li class="reply" >
+			<li class="li_table_r" ><input type="button" class="cmtReply_button" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="[답글]" ></li>
+			<!-- 대댓글 -->
+			<li class="reply" id="<?=$row_cmt['comment_id']?>" >
 				<div>
 					<table>
 						<tr>
-							<td>reply test</td>
+							<!-- valign는 셀의 수직 정렬 방식 -->
+							<td valign=top >┗</td>
+							<td>이름<br>
+								<input type="text" name="c_commentWriter" ><br>
+								비밀번호<br>
+								<input type="password"  name="c_commentPasswd" >
+							</td>
+							<td><textarea name="c_comment" ></textarea></td>
+							<td><input type="submit" value="답글등록" ></td>
 						</tr>
 					</table>
 				</div>
@@ -246,7 +260,7 @@ $result = mysqli_query($conn, $sql);
 				//댓글 페이지리스트 출력
 				for ($i = $start_cmt; $i <= $end_cmt; $i++) {
 					//댓글수가 $cmt_list보다 작으면 페이지 표시 안함
-					if ($row['cmtCount'] < $cmt_list) {
+					if ($row['cmtCount'] <= $cmt_list) {
 						
 					} else {
 					//현재 페이지를 제외한 페이지에만 링크 생성하기 위해 
