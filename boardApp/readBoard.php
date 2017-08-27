@@ -122,15 +122,12 @@ $result = mysqli_query($conn, $sql);
 	<table>
 		<tr>
 			<td>이름<br>
-				<input type="text" name="commentWriter" >
+				<input type="text" name="commentWriter" ><br>
+				비밀번호<br>
+				<input type="password"  name="commentPasswd" >
 			</td>
 			<td><textarea name="comment" ></textarea></td>
 			<td><input type="submit" value="댓글등록" ></td>
-		</tr>
-		<tr>
-			<td>비밀번호<br>
-				<input type="password"  name="commentPasswd" >
-			</td>
 		</tr>
 	</table>
 	</form>
@@ -200,21 +197,24 @@ $result = mysqli_query($conn, $sql);
 		</ul>
 		<ul class="ul_table" >
 			<li class="li_table_c" ><?= $row_cmt['comment'] ?></li>
-			<li class="li_table_r" ><input type="button" class="cmtReply_button" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="[답글]" ></li>
+			<li class="li_table_r" >
+			<!-- 답글(대댓글) id에 댓글번호를 저장-->
+			<input type="button" class="cmtReply_button" id="<?=$row_cmt['comment_id']?>" value="[답글]" ></li>
 			<!-- 대댓글 -->
-			<li class="reply" id="<?=$row_cmt['comment_id']?>" >
+			<!-- 답글(대댓글) value에 댓글번호를 저장 / id는 각각 달라야하기때문에 문자+댓글번호로 해줌-->
+			<li class="reply" id="reply_id<?=$row_cmt['comment_id']?>" value="<?=$row_cmt['comment_id']?>" >
 				<div>
 					<table>
 						<tr>
 							<!-- valign는 셀의 수직 정렬 방식 -->
 							<td valign=top >┗</td>
 							<td>이름<br>
-								<input type="text" name="c_commentWriter" ><br>
+								<input type="text" class="reply_table<?=$row_cmt['comment_id']?>" name="c_commentWriter" ><br>
 								비밀번호<br>
-								<input type="password"  name="c_commentPasswd" >
+								<input type="password" class="reply_table<?=$row_cmt['comment_id']?>" name="c_commentPasswd" >
 							</td>
-							<td><textarea name="c_comment" ></textarea></td>
-							<td><input type="submit" value="답글등록" ></td>
+							<td><textarea class="reply_table<?=$row_cmt['comment_id']?>" name="c_comment" ></textarea></td>
+							<td><input type="button" id="<?=$row_cmt['comment_id']?>" class="replySubmit" value="답글등록" ></td>
 						</tr>
 					</table>
 				</div>
@@ -227,27 +227,6 @@ $result = mysqli_query($conn, $sql);
 		}
 	?>
 	</form>
-
-<!-- 대댓글 폼 -->
-<!-- 	<div class="c_commentForm"> -->
-<!-- 	<form method="post" action="#" > -->
-<!-- 	<table> -->
-<!-- 		<tr> -->
-<!-- 			<td>이름<br> -->
-<!-- 				<input type="text" name="c_commentWriter" > -->
-<!-- 			</td> -->
-<!-- 			<td><textarea name="c_comment" ></textarea></td> -->
-<!-- 			<td><input type="submit" value="댓글등록" ></td> -->
-<!-- 		</tr> -->
-<!-- 		<tr> -->
-<!-- 			<td>비밀번호<br> -->
-<!-- 				<input type="password"  name="c_commentPasswd" > -->
-<!-- 			</td> -->
-<!-- 		</tr> -->
-<!-- 	</table> -->
-<!-- 	</form> -->
-<!-- 	</div> -->
-
 
 	<div class="div_table" >
 		<ul class="ul_table" >

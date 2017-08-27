@@ -12,7 +12,8 @@
 
 $(function(){
 	$("#textSave").click(function() {
-		var text = $('form').serialize();
+		var form = $('#createForm');
+		var text = form.serialize();
 		$.ajax({
 			url:'createBoard.php',
 			type: 'post',
@@ -44,26 +45,49 @@ $(function(){
 		
 	});
 
-	$(".cmtReply_button").click(function() {
-		alert("cmtReply show");
+	$(".cmtReply_button").click(function() { 
+//		alert("come in");
 		var cmt_id = $(this).attr('id');
-		var reply_id = $(".reply").attr('id');
-		alert(reply_id);
-//		location.replace('createComment_Cmt.php?' + cmt_id);
+		$("#reply_id"+cmt_id).val(cmt_id);
+		var reply_id = $("#reply_id"+cmt_id).val();
+//		console.log("reply_id: " + reply_id);
+//		console.log(reply_id);
+//		console.log($("#reply_id"+cmt_id).val(cmt_id));
 //		var reply_id = $(".reply").attr('id');
 //		alert("cmt_id: "+cmt_id + "reply_id: " +reply_id );
-//		if (cmt_id == reply_id) {
-//			$(".reply").show();
-//		}
-		
+		console.log(reply_id);
+		if ($("#"+cmt_id).val() == '[답글]') {
+			if (cmt_id == reply_id) {
+			$("#reply_id"+cmt_id).show();
+			$("#"+cmt_id).val('[답글취소]');
+//			console.log($("#"+cmt_id).val());	
+			} 
+		} else {
+			$("#reply_id"+cmt_id).hide();
+			$("#"+cmt_id).val('[답글]');
+		}
 	});
 
 
-	$(".cmtReply").click(function() {
-		alert("come in");
-		$(".c_commentForm").toggle();
-
+	$(".replySubmit").click(function() {
+		var cmt_num = $(this).attr('id');
+		var text = $('.reply_table'+cmt_num).serialize();
+		console.log(text);
+		$.ajax({
+			url:'',
+			type: 'post',
+			data: text,
+			success: function(result) {
+//				if (result == "1") {
+//					alert("글이 등록되었습니다.");
+//					document.location.href='';
+//				} else {
+//					alert(result);
+//				}
+			}	
+		});
 	});
+
 
 //	$("#commentDelete").click(function() {
 //		var cmt = $('#checkCmtNum').val();
