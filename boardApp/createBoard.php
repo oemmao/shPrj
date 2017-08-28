@@ -17,8 +17,6 @@ $content = $_POST['content'];
 if (empty($writer) || empty($email) || empty($passwd) || empty($subject) || empty($content)) {
 	echo "빈칸을 모두 채워주세요.";
 } else {
-	
-
 	if (!$conn) {
 		die("Connection failed: " .mysqli_connect_error());
 	}

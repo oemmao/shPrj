@@ -58,6 +58,24 @@ $result = mysqli_query($conn, $sql);
 		.replyMark {
 			padding: 0px;
 		}
+		.reply_list {
+			list-style-type: none;
+			width: 500px;
+		}
+		.reply_list div {
+			float: left;
+		}
+		.li_table_sign {
+			width: 30px;
+		}
+		.li_table_w_reply {
+			width: 70px;
+		}
+		.li_table_c_reply {
+			width: 370px;
+			height: 30px;
+		}
+
 	</style>
 </head>
 <body>
@@ -162,7 +180,7 @@ $result = mysqli_query($conn, $sql);
 		}
 		
 		$start_cmt_num = ($cmtPage - 1) * $cmt_list;
-		$sql_cmt = "select comment_id, name, commentDate, comment from comment_test where board_num='$num' order by comment_id desc limit $start_cmt_num, $cmt_list";
+		$sql_cmt = "select comment_id, name, commentDate, comment, cmt_reply from comment_test where board_num='$num' order by comment_id desc limit $start_cmt_num, $cmt_list";
 		$result_cmt = mysqli_query($conn, $sql_cmt);
 ?>	
 	<p>------------------------------------------------------------<br>
@@ -171,26 +189,30 @@ $result = mysqli_query($conn, $sql);
 	<?php
 		while ($row_cmt = mysqli_fetch_array($result_cmt)) {
 	?>
-	<form method="post" action="updateComment.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$_GET['cmt']?>">
+	<form method="post" action="updateComment.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$_GET['cmt']?>" >
+	<?php
+	//if로 구분예정 / 댓글번호도 get으로 넘긴당
+	if ($_GET['cmt'] == $row_cmt['comment_id']) {
+	//url의 cmt 값과 DB의 commemt_id 값이 일치하면 수정페이지로 변경	
+	?>
 	<div class="div_table" >
 		<ul class="ul_table" >
 			<li class="li_table_w" ><?= $row_cmt['name'] ?></li>
 			<li class="li_table_d" ><?= $row_cmt['commentDate'] ?></li>
-	<?php
-		//if로 구분예정 / 댓글번호도 get으로 넘긴당
-			if ($_GET['cmt'] == $row_cmt['comment_id']) {
-			//url의 cmt 값과 DB의 commemt_id 값이 일치하면 수정페이지로 변경	
-	?>
 		</ul>
 		<ul class="ul_table" >
-		<li class="li_table_c" ><textarea name="commentUpdate" ><?= $row_cmt['comment'] ?></textarea></li>
-		<li class="li_table_r" ><input type="submit" value="수정완료"></li>
+			<li class="li_table_c" ><textarea name="commentUpdate" ><?= $row_cmt['comment'] ?></textarea></li>
+			<li class="li_table_r" ><input type="submit" value="수정완료"></li>
 		</ul>
 
 	<?php
-			} else {
+	} else {
+		if ($row_cmt['cmt_reply'] == 0) {
 	?>
-
+	<div class="div_table" >
+		<ul class="ul_table" >
+			<li class="li_table_w" ><?= $row_cmt['name'] ?></li>
+			<li class="li_table_d" ><?= $row_cmt['commentDate'] ?></li>
 			<li class="li_table_u" ><a href="readBoard.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a>
 			<input type="button" name="commentDelete" class="commentDelete" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
 			<!-- id에 게시판번호와 댓글번호를 저장 --></li>
@@ -214,11 +236,37 @@ $result = mysqli_query($conn, $sql);
 								<input type="password" class="reply_table<?=$row_cmt['comment_id']?>" name="c_commentPasswd" >
 							</td>
 							<td><textarea class="reply_table<?=$row_cmt['comment_id']?>" name="c_comment" ></textarea></td>
-							<td><input type="button" id="<?=$row_cmt['comment_id']?>" class="replySubmit" value="답글등록" ></td>
+							<td><input type="button" class="replySubmit" id="<?=$row_cmt['comment_id']?>" value="답글등록" >
+							<!-- 페이지 정보를 보내기 위해 hidden 사용-->
+							<input type="hidden" id="replyPageInfo" value="page=<?=$page?>&num=<?=$num?>" ></td>
 						</tr>
 					</table>
 				</div>
 			</li>
+			<?php
+			} else {
+				for ($i=0; $i<=$row_cmt[0]; $i++) {
+					echo "{$i} {$row_cmt['comment_id']} {$row_cmt['cmt_reply']} <br>";
+				}
+					
+			?>
+			<p>id=<?= $row_cmt['comment_id'] ?><br>
+			<p>id=<?= $row_cmt['cmt_reply'] ?><br>
+			<p>id=<?= $row_cmt[4] ?><br>
+			<li class="reply_list" >
+				<div class="li_table_sign" >┗</div>
+				<div class="li_table_w_reply" ><?= $row_cmt['name'] ?></div>
+				<div class="li_table_d" ><?= $row_cmt['commentDate'] ?></div>
+				<div class="li_table_u" ><input type="button" value="수정"><input type="button" value="삭제" ></div>
+				<div class="li_table_sign" ><p>  </div>
+				<div class="li_table_c_reply" ><?= $row_cmt['comment'] ?></div>
+				<div class="li_table_r" ><input type="button" value="[답글]" ></div>
+			
+			</li>
+			<?php
+				
+			}
+			?>
 		</ul>
 	</div>
 

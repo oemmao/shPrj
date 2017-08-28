@@ -11,6 +11,7 @@
 //}
 
 $(function(){
+	//게시글 글쓰기
 	$("#textSave").click(function() {
 		var form = $('#createForm');
 		var text = form.serialize();
@@ -28,7 +29,7 @@ $(function(){
 			}	
 		});
 	});
-
+	//댓글 삭제
 	$(".commentDelete").click(function() {
 		var cmt = $(this).attr('id');
 //		alert(cmt);
@@ -44,7 +45,7 @@ $(function(){
 		}
 		
 	});
-
+	//대댓글 폼 show/hide 기능
 	$(".cmtReply_button").click(function() { 
 //		alert("come in");
 		var cmt_id = $(this).attr('id');
@@ -68,22 +69,24 @@ $(function(){
 		}
 	});
 
-
+	//대댓글 데이터 전송 및 등록
 	$(".replySubmit").click(function() {
 		var cmt_num = $(this).attr('id');
 		var text = $('.reply_table'+cmt_num).serialize();
-		console.log(text);
+//		console.log(text);
+		var replyPageInfo = $('#replyPageInfo').val();
+//		console.log(replyPageInfo);
 		$.ajax({
-			url:'',
+			url:'createComment_reply.php?' + replyPageInfo + '&cmt=' + cmt_num,
 			type: 'post',
 			data: text,
 			success: function(result) {
-//				if (result == "1") {
-//					alert("글이 등록되었습니다.");
-//					document.location.href='';
-//				} else {
-//					alert(result);
-//				}
+				if (result) {
+					alert("대댓글이 등록되었습니다.");
+					document.location.href='readBoard.php?' + replyPageInfo;
+				} else {
+					alert(result);
+				}
 			}	
 		});
 	});
