@@ -33,14 +33,6 @@ $result = mysqli_query($conn, $sql);
 		.div_table ul li {
 			float: left;
 		}
-
-		.reply_list {
-			list-style-type: none;
-			width: 500px;
-		}
-		.reply_list div {
-			float: left;
-		}
 		.li_table_w {
 			width: 100px;
 		}
@@ -66,7 +58,13 @@ $result = mysqli_query($conn, $sql);
 		.replyMark {
 			padding: 0px;
 		}
-		
+		.reply_list {
+			list-style-type: none;
+			width: 500px;
+		}
+		.reply_list div {
+			float: left;
+		}
 		.li_table_sign {
 			width: 30px;
 		}
@@ -188,44 +186,50 @@ $result = mysqli_query($conn, $sql);
 	<p>------------------------------------------------------------<br>
 	<p>댓글임<br>
 	<p>ul li로 작성<br>
-
-	<form method="post" action="updateComment.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$_GET['cmt']?>" >
-	<div class="div_table" >
 	<?php
+
+//		echo "assoc : ";
+//		print_r($row);
+//		echo "<br>";
+
 	while ($row_cmt = mysqli_fetch_array($result_cmt)) {
 //			echo "cmt : ";
 //			print_r($row_cmt);
 //			echo "<br>";		
+	?>
+	<form method="post" action="updateComment.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$_GET['cmt']?>" >
+	<?php
+	//if로 구분예정 / 댓글번호도 get으로 넘긴당
+	if ($_GET['cmt'] == $row_cmt['comment_id']) {
+	//url의 cmt 값과 DB의 commemt_id 값이 일치하면 수정페이지로 변경	
+	?>
+	<div class="div_table" >
+		<ul class="ul_table" >
+			<li class="li_table_w" ><?= $row_cmt['name'] ?></li>
+			<li class="li_table_d" ><?= $row_cmt['commentDate'] ?></li>
+		</ul>
+		<ul class="ul_table" >
+			<li class="li_table_c" ><textarea name="commentUpdate" ><?= $row_cmt['comment'] ?></textarea></li>
+			<li class="li_table_r" ><input type="submit" value="수정완료"></li>
+		</ul>
+
+	<?php
+	} else {
 		if ($row_cmt['comment_id'] == $row_cmt['cmt_reply']) {
 	?>
-		<ul>
-			<li class="reply_list">
-			<div class="li_table_w" ><?= $row_cmt['name'] ?></div>
-			<div class="li_table_d" ><?= $row_cmt['commentDate'] ?></div>
-			
-			<?php
-			//댓글 수정 화면
-			//if로 구분예정 / 댓글번호도 get으로 넘긴당
-			if ($_GET['cmt'] == $row_cmt['comment_id']) {
-			//url의 cmt 값과 DB의 commemt_id 값이 일치하면 수정페이지로 변경	
-			?>
-			<div class="li_table_c" ><textarea name="commentUpdate" ><?= $row_cmt['comment'] ?></textarea></div>
-			<div class="li_table_r" ><input type="submit" value="수정완료"></div>
-			<?php
-			} else {
-			?>
-			<div class="li_table_u" ><a href="readBoard.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a>
-			<input type="button" name="commentDelete" class="commentDelete" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" ><!-- id에 게시판번호와 댓글번호를 저장 --></div>
-
-			<div class="li_table_c" ><?= $row_cmt['comment'] ?></div>
-			<div class="li_table_r" >
+	<div class="div_table" >
+		<ul class="ul_table" >
+			<li class="li_table_w" ><?= $row_cmt['name'] ?></li>
+			<li class="li_table_d" ><?= $row_cmt['commentDate'] ?></li>
+			<li class="li_table_u" ><a href="readBoard.php?page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>"><input type="button" value="수정"></a>
+			<input type="button" name="commentDelete" class="commentDelete" id="page=<?=$page?>&num=<?=$num?>&cmt=<?=$row_cmt['comment_id']?>" value="삭제" >
+			<!-- id에 게시판번호와 댓글번호를 저장 --></li>
+		</ul>
+		<ul class="ul_table" >
+			<li class="li_table_c" ><?= $row_cmt['comment'] ?></li>
+			<li class="li_table_r" >
 			<!-- 답글(대댓글) id에 댓글번호를 저장-->
-			<input type="button" class="cmtReply_button" id="<?=$row_cmt['comment_id']?>" value="[답글]" ></div>
-			<?php
-			}
-			?>
-			</li>	
-
+			<input type="button" class="cmtReply_button" id="<?=$row_cmt['comment_id']?>" value="[답글]" ></li>
 			<!-- 대댓글 -->
 			<!-- 답글(대댓글) value에 댓글번호를 저장 / id는 각각 달라야하기때문에 문자+댓글번호로 해줌-->
 			<li class="reply" id="reply_id<?=$row_cmt['comment_id']?>" value="<?=$row_cmt['comment_id']?>" >
@@ -268,7 +272,7 @@ $result = mysqli_query($conn, $sql);
 	</div>
 
 	<?php
-			
+		}	
 	?>
 	</form>
 
