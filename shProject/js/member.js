@@ -1,3 +1,9 @@
+
+//메인에서 회원가입으로 이동
+var insertPage = function() {
+	document.location.href='member/memberInsertForm.html';
+}
+
 //회원가입 메인으로 이동
 var indexPage = function() {
 	//alert("come");
@@ -51,6 +57,8 @@ $(function() {
 	//회원가입
 	$('#memberInsert').submit(function(event){
 		alert('come memberInsert');
+		//form을 다음으로 넘기지 않기 위해 사용..
+		event.preventDefault();
 		if ($('#inputID').attr('isDuCheck') == 1) {
 			var isValid = false;
 			var userID = $('#inputID').val();
@@ -91,7 +99,7 @@ $(function() {
 						if (isValid) {
 							alert(result.message);
 //							document.location.href="https://www.naver.com/";
-							document.location.href='memberLogin.php';
+							document.location.href='memberLoginMain.php';
 							
 						} else {
 							alert(result.message);
@@ -110,9 +118,36 @@ $(function() {
 
 	});
 
-	$('#memberLogin').click(function(){
-		alert('come memberLogin');
-		document.location.href='member/memberLogin.php';
+	$('#memberLogin').submit(function(event){
+		alert("come memberLogin");
+		event.preventDefault();
+		var userID = $('#loginID').val();
+		var userPW = $('#loginPW').val();
+		var inputData = { "userID" : userID, 
+						  "userPW" : userPW };
+		
+		if (userID == "" || userPW == "") {
+			alert('아이디 또는 비밀번호를 입력해 주시기 바랍니다.');
+			event.preventDefault();
+		} else {
+			$.ajax({
+				url: 'member/memberLogin.php',
+				type: 'post',
+				dataType: 'json',
+				data: inputData,
+				success: function(result) {
+					var result = result;
+					var check = result.result;
+					if(check) {
+						alert(result.message);
+						document.location.href='member/memberLoginMain.php';
+					} else {
+						alert(result.message);
+					}
+				}	
+			})
+		}
+
 	});
 
 

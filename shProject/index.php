@@ -14,12 +14,12 @@ include "header.php";
 </nav>
 <section>
     <article>
-        <form >
+        <form id="memberLogin" method="post">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleInputEmail1">ID</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="ID를 입력하세요">
+                    <input type="id" class="form-control" id="loginID" name="loginID" placeholder="ID를 입력하세요">
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@ include "header.php";
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="exampleInputPassword1">PW</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input type="password" class="form-control" id="loginPW" name="loginPW" placeholder="비밀번호를 입력하세요">
                 </div>
             </div>
         </div>
@@ -49,8 +49,8 @@ include "header.php";
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-default">로그인</button>
-        <a href="member/memberInsertForm.html"><button type="button" class="btn btn-default">회원가입</button></a>
+        <button type="submit" class="btn btn-default" >로그인</button>
+        <button type="button" class="btn btn-primary" onclick="insertPage()" >회원가입</button>
         </form>
     </article>
 </section>
@@ -61,7 +61,6 @@ include "header.php";
 </body>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 <script src="js/bootstrap.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/member.js"></script>
