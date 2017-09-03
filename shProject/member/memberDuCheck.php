@@ -1,7 +1,6 @@
 <?
-
-include '../db_Info.php';
 header("Content-type:text/html;charset=utf-8");
+include '../db_Info.php';
 
 $userID = $_POST['userID'];
 
