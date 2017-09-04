@@ -1,15 +1,24 @@
+//메인으로 이동
+var indexPage = function() {
+	//alert("come");
+	document.location.href='http://sflower121.phps.kr/shProject/index.php';
+}
 
 //메인에서 회원가입으로 이동
 var insertPage = function() {
-	document.location.href='member/memberInsertForm.html';
+	document.location.href='member/memberInsertForm.php';
 }
-
-//회원가입 메인으로 이동
-var indexPage = function() {
-	//alert("come");
-	document.location.href='../index.php';
+//정보수정 페이지로 이동
+var updatePage = function() {
+	document.location.href='http://sflower121.phps.kr/shProject/member/memberUpdateForm.php';
 }
-
+//로그인 메인으로 이동
+var prevPage = function() {
+	document.location.href='http://sflower121.phps.kr/shProject/member/memberLoginMain.php';
+}
+var deletePage = function() {
+	document.location.href='http://sflower121.phps.kr/shProject/member/memberDeleteForm.php';
+}
 //익명함수
 $(function() {
 	//아이디 중복확인
@@ -94,7 +103,7 @@ $(function() {
 					success: function(result) {
 						var result = result;
 						isValid = result.result;
-						alert(isValid);
+//						alert(isValid);
 //						alert(result.message);
 						if (isValid) {
 							alert(result.message);
@@ -117,7 +126,7 @@ $(function() {
 		}
 
 	});
-
+	//회원 로그인
 	$('#memberLogin').submit(function(event){
 		alert("come memberLogin");
 		event.preventDefault();
@@ -150,7 +159,93 @@ $(function() {
 
 	});
 
+	//회원 정보수정
+	$('#memberUpdate').submit(function(event){
+		alert('come memberUpdate');
+		event.preventDefault();
+		var isValid = false;
+		var userID = $('#updateID').val();
+		var userPW = $('#updatePW').val();
+		var userPWCheck = $('#updatePWCheck').val();
+		var userName = $('#updateName').val();
+		var userGender = $(":input:radio[name=checkGender]:checked").val();
+		var inputData = {
+							//공백이 있을 수 있기 때문에, trim()함수 사용
+							"userID" : userID.trim(),	
+							"userPW" : userPW,
+							"userPWCheck" : userPWCheck,
+							"userName" : userName,
+							"userGender" : userGender
+						};
 
+		if (userPW == "") {
+			alert('비밀번호를 입력해 주시기 바랍니다.');
+		} else if (userPWCheck == "") {
+			alert('비밀번호재확인을 입력해 주시기 바랍니다.');
+		} else if (userPW != userPWCheck) {
+			alert('비밀번호가 일치하지 않습니다. 다시 입력해 주시기 바랍니다.');
+		} else if (userName == "") {
+			alert('이름을 입력해 주시기 바랍니다.');
+		} else if (!userGender) {
+			alert('성별을 선택해 주시기 바랍니다.');
+		} else {
+			var isValid = true;
+			$.ajax ({
+				url: 'memberUpdate.php',
+				type: 'post',
+				dataType: 'json',
+				data: inputData,
+				success: function(result) {
+					var result = result;
+					var isValid = result.result;
+					console.log(result.message);
+					if (isValid) {
+						alert(result.message);
+						document.location.href='memberLoginMain.php';
+					} else {
+						alert(result.message);
+					}
+				}
+			})
+		}
+		if (!isValid) {
+			event.preventDefault();
+		}
+	});
+
+	//회원 탈퇴
+	$('#memberDelete').submit(function(event){
+		alert('come memberDelete');
+		event.preventDefault();
+		var userID = $('#deleteID').val();
+		var userPW = $('#deletePW').val();
+		var inputData = {
+							"userID" : userID,
+							"userPW" : userPW
+						};
+		if (userPW == "") {
+			alert('비밀번호를 입력해 주시기 바랍니다.');
+			event.preventDefault();
+		} else {	
+			$.ajax({
+				url: 'memberDelete.php',
+				type: 'post',
+				dataType: 'json',
+				data: inputData,
+				success: function(result) {
+					var result = rsult;
+					var isValid = result.reslt;
+					if (isValid) {
+						alert(result.message);
+						document.location.href='../index.php';
+					} else {
+						alert(result.message);
+					}
+
+				}	
+			})
+		}
+	});
 });
 
 

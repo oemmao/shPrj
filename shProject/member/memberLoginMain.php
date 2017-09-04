@@ -6,7 +6,8 @@ header('Location: http://sflower121.phps.kr/shProject/index.php');
 }
 
 header("Content-Type:text/html;charset=utf-8");
-echo "회원가입 또는 로그인 성공 화면<br>";
+//echo "회원가입 또는 로그인 성공 화면<br>";
+//echo $_SESSION['userName'];
 echo "{$_SESSION['userName']}님, 반갑습니다.";
 ?>
 <html>
@@ -16,9 +17,8 @@ echo "{$_SESSION['userName']}님, 반갑습니다.";
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<br>
-<button type="button" class="btn btn-info">정보수정</button>
-<button type="button" class="btn btn-danger">탈퇴하기</button>
+<button type="button" class="btn btn-info" onclick="updatePage()">정보수정</button>
+<button type="button" class="btn btn-danger" onclick="deletePage()">탈퇴하기</button>
 <button type="button" class="btn btn-success">로그아웃</button>
 
 </body>

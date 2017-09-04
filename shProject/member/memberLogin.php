@@ -11,7 +11,7 @@ if (empty($userID) || empty($userPW)) {
 	$result["result"] = false;
 	$result["message"] = "아이디 또는 비밀번호를 입력해 주시기 바랍니다.";
 } else {	
-	$sql = "select userName from memberInfo where userID='$userID' and userPW='$userPW' and leaveCheck='F'";
+	$sql = "select id, userID, userName from memberInfo where userID='$userID' and userPW='$userPW' and leaveCheck='F'";
 	$check = mysqli_query($con, $sql);
 	$count = mysqli_num_rows($check); 
 
@@ -19,6 +19,14 @@ if (empty($userID) || empty($userPW)) {
 		$row = mysqli_fetch_assoc($check);
 		$_SESSION['isLogin'] = true;
 		$_SESSION['userName'] = $row['userName'];
+		$_SESSION['userID'] = $row['userID'];
+		$_SESSION['id'] = $row['id'];
+
+//		$userID_cookie = $row['u$_SESSION['userID'] = $row['userID'];serID'];
+//		setcookie('$userID_cookie', 'LoginCookie', time()+60*60*1);
+//		$myCookie = $_COOKIE['$userID_cookie'];
+//		echo $myCookie;
+
 		$result["result"] = true;
 		$result["message"] = "로그인 되었습니다.";
 	} else { //아이디 또는 비밀번호 일치하지 않음, 없음 //로그인 실패

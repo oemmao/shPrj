@@ -33,15 +33,28 @@ if (empty($userID)) {
 } else {
 
 	$sql = "insert into memberInfo (userID, userPW, userName, userGender, joinDate, userModifyDate) values ('$userID', '$userPW', '$userName', '$userGender', now(), now())";
-
 	mysqli_query($con, $sql);
 
+//	$idx = mysqli_insert_id();
+
+
+	//회원가입한 유저의 id값 가져옴
+	$sql = "select * from memberInfo order by id desc limit 1";
+	$insert = mysqli_query($con, $sql);
+	$row = mysqli_fetch_assoc($insert);
+	$idx = $row['id'];
+
+	$sql_idx = "select userID, userName from memberInfo where id='$idx'";
+	$insert_user = mysqli_query($con, $sql_idx);
+	$user_idx = mysqli_fetch_assoc($insert_user);
+
 	$_SESSION['isLogin'] = true;
-	$_SESSION['userID'] = $userID;
-	$_SESSION['userName'] = $userName;
+	$_SESSION['userID'] = $user_idx['userID'];
+	$_SESSION['userName'] = $user_idx['userName'];
 
 	$result["result"] = true;
-	$result["message"] = "회원가입이 완료 되었습니다.";
+	$result["message"] = $idx;
+////	$result["message"] = "회원가입이 완료 되었습니다.";
 	
 //	echo "<script>alert(\"회원가입이 완료 되었습니다.\");
 //			document.location.href='memberLogion.php';</script>";
