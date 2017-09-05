@@ -17,6 +17,7 @@ $row = mysqli_fetch_array($result);
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>welcome to my homepage</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <p>정보수정 페이지

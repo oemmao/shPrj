@@ -1,5 +1,4 @@
 <?
-session_save_path('./session');
 session_start();
 
 header("Content-Type:text/html;charset=utf-8");
@@ -53,8 +52,8 @@ if (empty($userID)) {
 	$_SESSION['userName'] = $user_idx['userName'];
 
 	$result["result"] = true;
-	$result["message"] = $idx;
-////	$result["message"] = "회원가입이 완료 되었습니다.";
+	$result["message"] = $_SESSION['isLogin'];
+	//$result["message"] = "회원가입이 완료 되었습니다.";
 	
 //	echo "<script>alert(\"회원가입이 완료 되었습니다.\");
 //			document.location.href='memberLogion.php';</script>";

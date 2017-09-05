@@ -1,0 +1,26 @@
+.all_width {
+	width: 80%;
+	
+}	
+
+/*메인메뉴바*/
+.mainBar {
+	padding: 0 0 20px 0;
+	
+;
+}
+/*nav*/
+.nav_array {
+	float: left;
+}
+.col-xs-3 {
+	border-right: solid 3px lightgray;
+}
+/*section article*/
+.article_boardList {
+	float: left;
+}
+/*이미지*/
+.img_info {
+	width: 100%;
+}

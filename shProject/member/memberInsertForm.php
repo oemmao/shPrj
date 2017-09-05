@@ -3,10 +3,12 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>welcome to my homepage</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <p>회원가입 페이지
 <section>
+<div class="all_width">
     <article>
         <form class="form-horizontal" id="memberInsert" method="post" >
         <!--         <div class="form-group"> -->
@@ -61,7 +63,7 @@
         </form>
     </article>
 </section>
-
+</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="../js/member.js"></script>

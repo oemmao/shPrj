@@ -14,13 +14,19 @@ var updatePage = function() {
 }
 //로그인 메인으로 이동
 var prevPage = function() {
-	document.location.href='http://sflower121.phps.kr/shProject/member/memberLoginMain.php';
+	document.location.href='http://sflower121.phps.kr/shProject/loginMain.php';
 }
 var deletePage = function() {
 	document.location.href='http://sflower121.phps.kr/shProject/member/memberDeleteForm.php';
 }
+var logoutPage = function() {
+	document.location.href='http://sflower121.phps.kr/shProject/member/memberLogout.php';
+}
 //익명함수
 $(function() {
+	
+	var globalDomain = 'http://sflower121.phps.kr/shProject/';
+
 	//아이디 중복확인
 	$('#duCheckID').click(function(){
 		//alert('come duCheckID');
@@ -108,7 +114,7 @@ $(function() {
 						if (isValid) {
 							alert(result.message);
 //							document.location.href="https://www.naver.com/";
-							document.location.href='memberLoginMain.php';
+							document.location.href=globalDomain + 'loginMain.php';
 							
 						} else {
 							alert(result.message);
@@ -149,14 +155,13 @@ $(function() {
 					var check = result.result;
 					if(check) {
 						alert(result.message);
-						document.location.href='member/memberLoginMain.php';
+						document.location.href=globalDomain + 'loginMain.php';
 					} else {
 						alert(result.message);
 					}
 				}	
 			})
 		}
-
 	});
 
 	//회원 정보수정
@@ -201,7 +206,7 @@ $(function() {
 					console.log(result.message);
 					if (isValid) {
 						alert(result.message);
-						document.location.href='memberLoginMain.php';
+						document.location.href=globalDomain + 'loginMain.php';
 					} else {
 						alert(result.message);
 					}
@@ -215,37 +220,42 @@ $(function() {
 
 	//회원 탈퇴
 	$('#memberDelete').submit(function(event){
-		alert('come memberDelete');
+		alert('come #memberDelete');
 		event.preventDefault();
 		var userID = $('#deleteID').val();
 		var userPW = $('#deletePW').val();
+		console.log("userID : " + userID);
+		console.log("userPW: " + userPW);
 		var inputData = {
-							"userID" : userID,
+							//공백이 있을 수 있기 때문에, trim()함수 사용
+							"userID" : userID.trim(),	
 							"userPW" : userPW
 						};
 		if (userPW == "") {
 			alert('비밀번호를 입력해 주시기 바랍니다.');
 			event.preventDefault();
-		} else {	
-			$.ajax({
+		} else {
+			console.log("come ajax");
+			$.ajax ({
 				url: 'memberDelete.php',
 				type: 'post',
 				dataType: 'json',
 				data: inputData,
 				success: function(result) {
-					var result = rsult;
-					var isValid = result.reslt;
+					var result = result;
+					var isValid = result.result;
+					console.log(result.message);
 					if (isValid) {
 						alert(result.message);
-						document.location.href='../index.php';
+						document.location.href=globalDomain+'index.php';
 					} else {
 						alert(result.message);
 					}
-
-				}	
+				}
 			})
 		}
 	});
+
 });
 
 

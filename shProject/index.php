@@ -4,14 +4,11 @@
 <title>welcome to my homepage</title>
 <!-- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <p>어서와!<br>
-<?
-include "header.php";
-?>
-<nav>
-</nav>
+<div class="all_width">
 <section>
     <article>
         <form id="memberLogin" method="post">
@@ -58,6 +55,7 @@ include "header.php";
 </aside>
 <footer>
 </footer>
+</div>
 </body>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
