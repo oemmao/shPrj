@@ -19,8 +19,8 @@ header("Content-Type:text/html;charset=utf-8");
 </head>
 <body>
 <div class="all_width">
-<? include "header.php"; ?>
-<? include "nav.php"; ?>
+<? include "layout/header.php"; ?>
+<? include "layout/nav.php"; ?>
 <section>
     <article class="col-xs-9">
         <div>

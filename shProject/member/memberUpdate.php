@@ -40,7 +40,7 @@ if (empty($userPW)) {
 	$_SESSION['userName'] = $row['userName'];
 
 	$result["result"] = true;
-//	$result["message"] = $sql_name;
+//	$result["message"] = $idx;
 	$result["message"] = "정보수정이 완료 되었습니다.";
 }
 $output = json_encode($result);

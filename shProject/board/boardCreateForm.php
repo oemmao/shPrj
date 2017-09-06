@@ -17,15 +17,15 @@ header("Content-Type:text/html;charset=utf-8");
 </head>
 <body>
 <div class="all_width">
-    <? include "../header.php"; ?>
-    <? include "../nav.php"; ?>
+    <? include "../layout/header.php"; ?>
+    <? include "../layout/nav.php"; ?>
     <section>
         <article class="col-xs-9">
             <div>
                 <h3>
                 <span>글쓰기</span>
                 </h3>
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="writingForm">
                 <div class="form-group">
                     <label for="inputSubject" class="col-sm-2 control-label">제목</label>
                     <div class="col-sm-10">
@@ -48,8 +48,8 @@ header("Content-Type:text/html;charset=utf-8");
                 </form>
             </div>
 			<div class="pull-right">
-            <button type="button" class="btn btn-info ">확인</button>
-			<button type="reset" class="btn btn-warning" value="다시쓰기">다시쓰기</button>
+            <button type="button" class="btn btn-info" id="writing_submit">확인</button>
+			<button type="button" class="btn btn-warning" id="input_clear">다시쓰기</button>
 			<button type="button" class="btn btn-success" onclick="board_prevPage()" >이전으로</button>
 			</div>
         </article>

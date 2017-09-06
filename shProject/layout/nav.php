@@ -1,4 +1,4 @@
-<nav class="col-xs-3">
+<nav class="col-xs-2">
     <div>
         <div>
             <h3>
