@@ -6,18 +6,19 @@ header('Location: http://sflower121.phps.kr/shProject/index.php');
 
 header("Content-Type:text/html;charset=utf-8");
 include "../db_Info.php";
-
+//게시판 리스트 파일
+//include "boardList.php";
 //리스트를 가져오기 위해 DB전체를 가져옴
 //memberInfo에서 userID를 가져오기 위해 join 사용
 //게시글 번호, 제목, 아이디, 글등록시간, 조회수
-$sql = "select * from boardInfo order by id desc";
+$sql = "select * from boardInfo order by idx desc";
 $result = mysqli_query($con, $sql);
 //DB의 총 row(행) 개수를 반환하는 함수(총 게시물 수를 구할 때 사용)
 $board_total = mysqli_num_rows($result);
 
 //페이지 값 가져오기
-$page = ($_GET['page'])? $_GET['page'] : 1;  
-$page_list = 5; //페이지당 게시글 수
+$page = ($_GET['page'])? $_GET['page'] : 1; //페이지
+$page_list = 3; //페이지당 게시글 수
 $page_block = 3; //블록당 페이지 수
 
 //ceil 소수점 올림 함수
@@ -38,6 +39,6 @@ if ($page_total <= $end_page) {
 
 //리스트 시작번호 구하기
 $start_num = ($page - 1) * $page_list;
-$sql_list = "select idx, member_idx, subject, content, creatDate, textView, userID from boardInfo order by idx desc limite $start_num, $page_list";
+$sql_list = "select idx, member_idx, subject, content, creatDate, textView, userID from boardInfo join memberInfo on boardInfo.member_idx = memberInfo.id order by idx desc limit $start_num, $page_list";
 $board_result = mysqli_query($con, $sql_list);
 ?>
