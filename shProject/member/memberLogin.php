@@ -21,6 +21,7 @@ if (empty($userID) || empty($userPW)) {
 		$_SESSION['userName'] = $row['userName'];
 		$_SESSION['userID'] = $row['userID'];
 		$_SESSION['id'] = $row['id'];
+		$_SESSION['viewCheck'] = true;
 
 //		$userID_cookie = $row['u$_SESSION['userID'] = $row['userID'];serID'];
 //		setcookie('$userID_cookie', 'LoginCookie', time()+60*60*1);

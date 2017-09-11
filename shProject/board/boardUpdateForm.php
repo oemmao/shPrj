@@ -2,11 +2,15 @@
 session_start();
 if(!isset($_SESSION['isLogin'])){
 header('Location: http://sflower121.phps.kr/shProject/index.php');
-//    echo "<script>document.location.href='http://sflower121.phps.kr/shProject/index.php';</script>";
 }
-
 header("Content-Type:text/html;charset=utf-8");
+include '../db_Info.php';
 
+$idx = $_GET['idx'];
+$page = $_GET['page'];
+$sql = "select * from boardInfo where idx='$idx'";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_array($result);
 ?>
 <html>
 <head>
@@ -23,13 +27,13 @@ header("Content-Type:text/html;charset=utf-8");
         <article class="col-xs-9 article_line">
             <div>
                 <h3>
-                <span>글쓰기</span>
+                <span>글 수정하기</span>
                 </h3>
-                <form method="post" enctype="multipart/form-data" class="form-horizontal" id="writingForm">
+                <form class="form-horizontal" id="boardUpdateForm">
                 <div class="form-group">
                     <label for="inputSubject" class="col-sm-2 control-label">제목</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputSubject" name="inputSubject" placeholder="제목">
+                        <input type="email" class="form-control" id="inputSubject" name="inputSubject" value="<?= $row['subject']?>">
                     </div>
                 </div>
 
@@ -44,15 +48,15 @@ header("Content-Type:text/html;charset=utf-8");
                 <div class="form-group">
                     <label for="inputContent" class="col-sm-2 control-label">글쓰기</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" id="inputContent" name="inputContent" rows="5"></textarea>
+                        <textarea class="form-control" id="inputContent" name="inputContent" rows="5"><?= $row['content']?></textarea>
                     </div>
                 </div>
                 </form>
             </div>
 			<div class="pull-right">
-            <button type="button" class="btn btn-info" id="writing_submit">확인</button>
+            <button type="button" class="btn btn-info boardUpdate_submit" id="page=<?=$page?>&idx=<?=$idx?>">확인</button>
 			<button type="button" class="btn btn-warning" id="input_clear">다시쓰기</button>
-			<button type="button" class="btn btn-success" onclick="boardMain_page()" >목록</button>
+			<button type="button" class="btn btn-success" onclick="boardPrev_page()" >이전으로</button>
 			</div>
         </article>
     </section>

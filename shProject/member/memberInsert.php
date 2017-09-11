@@ -50,6 +50,8 @@ if (empty($userID)) {
 	$_SESSION['isLogin'] = true;
 	$_SESSION['userID'] = $user_idx['userID'];
 	$_SESSION['userName'] = $user_idx['userName'];
+	ㄴ$_SESSION['viewCheck'] = true;
+
 
 	$result["result"] = true;
 	//$result["message"] = $idx;
