@@ -21,7 +21,15 @@ if (empty($userID) || empty($userPW)) {
 		$_SESSION['userName'] = $row['userName'];
 		$_SESSION['userID'] = $row['userID'];
 		$_SESSION['id'] = $row['id'];
-		$_SESSION['viewCheck'] = true;
+//		$_SESSION['viewCheck'] = true;
+
+//		$_COOKIE['cooki_id'] = $row['id'];
+//		$_COOKIE['cooki_name'] = $row['userName'];
+//		$_COOKIE['cooki_userID'] = $row['userID'];
+
+		setcookie("cooki_id", $row['id'], time()+(60*60), "/");
+		setcookie("cooki_name", $row['userName'], time()+(60*60), "/");
+		setcookie("cooki_userID", $row['userID'], time()+(60*60), "/");
 
 //		$userID_cookie = $row['u$_SESSION['userID'] = $row['userID'];serID'];
 //		setcookie('$userID_cookie', 'LoginCookie', time()+60*60*1);

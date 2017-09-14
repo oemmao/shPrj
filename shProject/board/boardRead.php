@@ -16,14 +16,42 @@ $row = mysqli_fetch_array($result);
 //						echo "<br>";
 
 //조회수 -> 새로고침할때 조회수 안올라감 ㅋㅋ
-if ($_SESSION['id'] != $row['member_idx'] && $row['viewCheck'] == T) {	
-	$viewCheck_sql = "update boardInfo set textView=textView+1, viewCheck='F' where idx='$idx'";
-	mysqli_query($con, $viewCheck_sql);
-}
+//쿠키를 사용해서 조회수 구현하기
+//if ($_SESSION['id'] != $row['member_idx'] && $row['viewCheck'] == T) {	
+//	$viewCheck_sql = "update boardInfo set textView=textView+1, viewCheck='F' where idx='$idx'";
+//	mysqli_query($con, $viewCheck_sql);
+//}
+
+setcookie("cooki_boardIdx", $row['idx'], time()+(60*60), "/");
+//echo "board idx_11 : ".$row['idx']."<br>";
+//echo "board idx : ".$_COOKIE['cooki_boardIdx']."<br>";
+//
+//$viewCheck = $row['idx'];
+////setcookie("cooki_viewCheck", $row['idx'], time()+(60*60), "/");
+//
+//echo "id : ".$_COOKIE['cooki_id']."<br>";
+//echo "name : ".$_COOKIE['cooki_name']."<br>";
+//echo "userID : ".$_COOKIE['cooki_userID']."<br>";
+//echo "viewCheck : ".$_COOKIE['cooki_viewCheck']."<br>";
+//echo "viewCheck : ".$_COOKIE['cooki_viewCheck_11']."<br>";
+
+//if ($_COOKIE['cooki_viewCheck'] > $_COOKIE['cooki_boardIdx']) {
+//	$viewCheckes = 1;
+//	setcookie("cooki_viewCheck", $viewCheckes+$row['idx'], time()+(60*60), "/");
+//}
+//$_COOKIE['cooki_id'] != $row['member_idx']
+//if ($viewCheck == $_COOKIE['cooki_boardIdx'] && $_COOKIE['cooki_viewCheck'] == 1) {
+//	$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+//	mysqli_query($con, $viewCheck_sql);
+//	$viewCheck = 0;
+//	setcookie("cooki_viewCheck", $viewCheck, time()+(60*60), "/");
+//}
+
 ?>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>welcome to my homepage</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="../css/index.css" rel="stylesheet" type="text/css">
@@ -31,9 +59,9 @@ if ($_SESSION['id'] != $row['member_idx'] && $row['viewCheck'] == T) {
 <body>
 <div class="all_width">
     <? include "../layout/header.php"; ?>
-    <? include "../layout/nav.php"; ?>
+<!--     <? include "../layout/nav.php"; ?> -->
     <section>
-        <article class="col-xs-10 article_line">
+        <article class="col-xs-12">
             <div>
                 <h3>
                 <span>글읽기</span>
@@ -70,7 +98,7 @@ if ($_SESSION['id'] != $row['member_idx'] && $row['viewCheck'] == T) {
                     <tr class="reply_table_tr_size">
                         <td class="col-xs-2 text-center reply_table_id_size"><? echo $_SESSION['userID'] ?></td>
                         <td class="col-xs-8"><textarea class="reply_text_size" id="#" name="#" rows="3"></textarea></td>
-                        <td class="col-xs-2"><button type="button" class="btn btn-reply_color btn-size">등록</button></td>
+                        <td class="col-xs-2"><button type="button" class="btn btn-reply_color">등록</button></td>
                     </tr>
                     </table>
                 </div>
