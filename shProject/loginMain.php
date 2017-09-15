@@ -13,6 +13,7 @@ header("Content-Type:text/html;charset=utf-8");
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>welcome to my homepage</title>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="css/index.css" rel="stylesheet" type="text/css">
@@ -20,14 +21,14 @@ header("Content-Type:text/html;charset=utf-8");
 <body>
 <div class="all_width">
 <? include "layout/header.php"; ?>
-<? include "layout/nav.php"; ?>
+<!-- <? include "layout/nav.php"; ?> -->
 <section>
-    <article class="col-xs-9">
+    <article class="col-xs-12">
         <div>
             <h3>
             <span>게시판 메인</span>
             </h3>
-			<img class="img_info" src="image/board_main.jpg">
+			<a href="http://sflower121.phps.kr/shProject/board/boardMain.php"><img class="img_info" src="image/board_main.jpg"></a>
         </div>
     </article>
 </section>

@@ -15,6 +15,7 @@ $row = mysqli_fetch_array($result);
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>welcome to my homepage</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="../css/index.css" rel="stylesheet" type="text/css">
@@ -22,9 +23,9 @@ $row = mysqli_fetch_array($result);
 <body>
 <div class="all_width">
     <? include "../layout/header.php"; ?>
-    <? include "../layout/nav.php"; ?>
+<!--     <? include "../layout/nav.php"; ?> -->
     <section>
-        <article class="col-xs-9 article_line">
+        <article class="col-xs-12 article_line">
             <div>
                 <h3>
                 <span>글 수정하기</span>
@@ -33,7 +34,7 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group">
                     <label for="inputSubject" class="col-sm-2 control-label">제목</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputSubject" name="inputSubject" value="<?= $row['subject']?>">
+                        <input type="inputSubject" class="form-control" id="inputSubject" name="inputSubject" value="<?= $row['subject']?>">
                     </div>
                 </div>
 

@@ -19,10 +19,19 @@ $(function(){
 		$('textarea').val('');
 	});
 	//글쓰기
-	$('#writing_submit').click(function(){
+	$('.writing_submit').submit(function(event){
 		alert('come #writing_submit');
+		event.preventDefault();
+		var isValid = false;
+//		var formFileData = new FormData($("form")[0]);
+//		
+//		var upfiles_cnt = $("input:file",this)[0].files.length;
+//		if (upfiles_cnt == 0){
+//			alert("file No");
+//		}
 		var form = $('#writingForm');
 		var inputData = form.serialize();
+		
 		var subject = $('#inputSubject').val();
 		var content = $('#inputContent').val();
 		if (subject == "") {
@@ -30,6 +39,7 @@ $(function(){
 		} else if (content == "") {
 			alert('내용을 입력해 주시기 바랍니다.');
 		} else {
+			isValid = true;
 			$.ajax({
 				url: 'boardCreate.php',
 				type: 'post',
@@ -46,6 +56,9 @@ $(function(){
 					}
 				}		
 			})
+		}
+		if (!isValid) {
+			event.preventDefault();
 		}
 	});
 	//글수정
@@ -90,5 +103,35 @@ $(function(){
 		}
 	});
 
+	//댓글작성
+	$(".comment_submit").click(function(){
+		alert('come comment_submit');
+		var commentAdd = $(this).attr('id');
+		var comment_userID = $("#comment_userID").text();
+		var comment_text = $("#comment_text").val();
+		alert(comment_text);
+		var inputData = {	"comment_userID" : comment_userID,
+							"comment_text" : comment_text	};
+		if (comment_text == "")	{
+			alert("댓글 내용을 입력해 주시기 바랍니다.");
+		} else {
+			$.ajax({
+				url: 'commentCreate.php?' + commentAdd,
+				type: 'post',
+				dataType: 'json',
+				data: inputData,
+				success: function(result) {
+					var result = result;
+					isValid = result.result;
+					if (isValid) {
+						alert(result.message);
+						document.location.href='boardRead.php?' + commentAdd;
+					} else {
+						alert(result.message);
+					}
+				}
+			})
+		}
+	});
 
 });

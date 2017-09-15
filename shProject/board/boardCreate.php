@@ -12,6 +12,7 @@ $userID = $_SESSION['userID'];
 $subject = $_POST['inputSubject'];
 $content = $_POST['inputContent'];
 
+
 if (empty(subject)) {
 	$result['result'] = false;
 	$result['message'] = "제목을 입력해 주시기 바랍니다.";

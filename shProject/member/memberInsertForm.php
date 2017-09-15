@@ -1,15 +1,16 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>welcome to my homepage</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="css/index.css" rel="stylesheet" type="text/css">
+<link href="../css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <p>회원가입 페이지
 <section>
 <div class="all_width">
-    <article>
+    <article class="col-xs-12">
         <form class="form-horizontal" id="memberInsert" method="post" >
         <!--         <div class="form-group"> -->
         <!--             <label for="inputEmail3" class="col-sm-1 control-label">Email</label> -->
@@ -22,7 +23,9 @@
             <div class="col-sm-3">
                 <input type="userid" class="form-control" id="inputID" name="inputID" isDuCheck="0" placeholder="아이디">
             </div>
+			<div class="col-sm-offset-2 col-sm-3 text-right">
             <button type="button" class="col-sm-1 btn btn-default" id="duCheckID" >중복확인</button>
+			</div>
         </div>
         <div class="form-group">
             <label for="inputPW" class="col-sm-1 control-label">비밀번호</label>
@@ -54,8 +57,8 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-3">
-                <button type="submit" class="btn btn-default" >가입하기</button>
+            <div class="col-sm-offset-2 col-sm-3 text-center">
+                <button type="submit" class="btn btn-warning" >가입하기</button>
 				<button type="button" class="btn btn-default" onclick="indexPage()" >메인으로</button>
             </div>
 			

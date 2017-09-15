@@ -15,6 +15,7 @@ $row = mysqli_fetch_array($result);
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>welcome to my homepage</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="../css/index.css" rel="stylesheet" type="text/css">
@@ -22,9 +23,9 @@ $row = mysqli_fetch_array($result);
 <body>
 <div class="all_width">
     <? include "../layout/header.php"; ?>
-    <? include "../layout/nav.php"; ?>
+<!-- <? include "../layout/nav.php"; ?> -->
     <section>
-        <article class="col-xs-10 article_line">
+        <article class="col-xs-12 article_line">
             <h3>회원탈퇴 페이지</h3><br>
             <form class="form-horizontal" id="memberDelete" method="post" >
             <div class="form-group">
@@ -41,8 +42,8 @@ $row = mysqli_fetch_array($result);
             </div>
 
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-3">
-                    <button type="submit" class="btn btn-default" >탈퇴완료</button>
+                <div class="col-sm-offset-2 col-sm-3 text-center">
+                    <button type="submit" class="btn btn-warning" >탈퇴완료</button>
                     <button type="button" class="btn btn-default" onclick="prevPage()" >이전으로</button>
                 </div>
 

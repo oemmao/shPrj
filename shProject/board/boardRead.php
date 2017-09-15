@@ -69,8 +69,8 @@ setcookie("cooki_boardIdx", $row['idx'], time()+(60*60), "/");
                 <div class="read_table">
                     <table class="read_table_size">
                     <tr class="read_table_tr_size">
-                        <td class="col-xs-7 read_table_font"><?=$row['subject']?></td>
-                        <td class="col-xs-4 text-center"><?=$row['creatDate']?></td>
+                        <td class="col-xs-6 read_table_font"><?=$row['subject']?></td>
+                        <td class="col-xs-5 text-center"><?=$row['creatDate']?></td>
                         <td class="col-xs-1 text-center"><?=$row['textView']?></td>
                     </tr>
                     <tr>
@@ -96,9 +96,9 @@ setcookie("cooki_boardIdx", $row['idx'], time()+(60*60), "/");
                 <div class="board_reply">
                     <table class="reply_table_size">
                     <tr class="reply_table_tr_size">
-                        <td class="col-xs-2 text-center reply_table_id_size"><? echo $_SESSION['userID'] ?></td>
-                        <td class="col-xs-8"><textarea class="reply_text_size" id="#" name="#" rows="3"></textarea></td>
-                        <td class="col-xs-2"><button type="button" class="btn btn-reply_color">등록</button></td>
+                        <td class="col-xs-2 text-center reply_table_id_size" id="comment_userID" name="comment_userID"><? echo $_SESSION['userID'] ?></td>
+                        <td class="col-xs-8"><textarea class="reply_text_size" id="comment_text" name="comment_text" rows="3"></textarea></td>
+                        <td class="col-xs-2"><button type="button" class="btn btn-reply_color comment_submit" id="page=<?=$page?>&idx=<?=$idx?>">등록</button></td>
                     </tr>
                     </table>
                 </div>
