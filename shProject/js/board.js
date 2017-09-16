@@ -20,18 +20,18 @@ $(function(){
 	});
 	//글쓰기
 	$('.writing_submit').submit(function(event){
-		alert('come #writing_submit');
+		//alert('come #writing_submit');
 		event.preventDefault();
 		var isValid = false;
-//		var formFileData = new FormData($("form")[0]);
-//		
-//		var upfiles_cnt = $("input:file",this)[0].files.length;
-//		if (upfiles_cnt == 0){
-//			alert("file No");
-//		}
-		var form = $('#writingForm');
-		var inputData = form.serialize();
-		
+		var form = $('#writingForm')[0];
+        var formData = new FormData(form);
+        formData.append("inputFile", $("#inputFile")[0].files[0]);
+		formData.append("inputSubject", $('#inputSubject').val());
+		formData.append("inputContent", $('#inputContent').val());
+
+//		var form = $('#writingForm');
+//		var inputData = form.serialize();
+		console.log(formData);
 		var subject = $('#inputSubject').val();
 		var content = $('#inputContent').val();
 		if (subject == "") {
@@ -44,13 +44,16 @@ $(function(){
 				url: 'boardCreate.php',
 				type: 'post',
 				dataType: 'json',
-				data: inputData,
+				processData: false,
+                contentType: false,
+				data: formData,
 				success: function(result)	{
 					var result = result;
 					isValid = result.result;
 					if (isValid) {
 						alert(result.message);
-						document.location.href='boardMain.php';
+						console.log(result);
+						//document.location.href='boardMain.php';
 					} else {
 						alert(result.message);
 					}

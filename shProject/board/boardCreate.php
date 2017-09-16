@@ -11,7 +11,7 @@ $userID = $_SESSION['userID'];
 //$userName = $_SESSION['userName'];
 $subject = $_POST['inputSubject'];
 $content = $_POST['inputContent'];
-
+$file = $_FILES['inputFile'];
 
 if (empty(subject)) {
 	$result['result'] = false;
@@ -24,6 +24,7 @@ if (empty(subject)) {
 	mysqli_query($con, $sql);
 	
 	$result['result'] = true;
+	$result['file'] = $file;
 	$result['message'] = "게시글이 등록 되었습니다.";
 }
 $output = json_encode($result);

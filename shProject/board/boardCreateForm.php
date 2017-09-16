@@ -38,6 +38,7 @@ header("Content-Type:text/html;charset=utf-8");
                     <label for="inputFile" class="col-sm-2 control-label" >파일첨부</label>
                     <div class="col-sm-10">
                         <input type="file" id="inputFile" name="inputFile">
+						<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
                         <!-- <p class="help-block">여기에 블록레벨 도움말 예제</p> -->
                     </div>
 

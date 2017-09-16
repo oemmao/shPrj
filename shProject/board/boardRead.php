@@ -17,35 +17,42 @@ $row = mysqli_fetch_array($result);
 
 //조회수 -> 새로고침할때 조회수 안올라감 ㅋㅋ
 //쿠키를 사용해서 조회수 구현하기
-//if ($_SESSION['id'] != $row['member_idx'] && $row['viewCheck'] == T) {	
-//	$viewCheck_sql = "update boardInfo set textView=textView+1, viewCheck='F' where idx='$idx'";
-//	mysqli_query($con, $viewCheck_sql);
-//}
 
-setcookie("cooki_boardIdx", $row['idx'], time()+(60*60), "/");
-//echo "board idx_11 : ".$row['idx']."<br>";
-//echo "board idx : ".$_COOKIE['cooki_boardIdx']."<br>";
-//
-//$viewCheck = $row['idx'];
-////setcookie("cooki_viewCheck", $row['idx'], time()+(60*60), "/");
-//
-//echo "id : ".$_COOKIE['cooki_id']."<br>";
-//echo "name : ".$_COOKIE['cooki_name']."<br>";
-//echo "userID : ".$_COOKIE['cooki_userID']."<br>";
-//echo "viewCheck : ".$_COOKIE['cooki_viewCheck']."<br>";
-//echo "viewCheck : ".$_COOKIE['cooki_viewCheck_11']."<br>";
+//유저idx랑 게시글idx를 쿠키에 저장	
+$userID_idx = $row['member_idx'];
 
-//if ($_COOKIE['cooki_viewCheck'] > $_COOKIE['cooki_boardIdx']) {
-//	$viewCheckes = 1;
-//	setcookie("cooki_viewCheck", $viewCheckes+$row['idx'], time()+(60*60), "/");
-//}
-//$_COOKIE['cooki_id'] != $row['member_idx']
-//if ($viewCheck == $_COOKIE['cooki_boardIdx'] && $_COOKIE['cooki_viewCheck'] == 1) {
-//	$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
-//	mysqli_query($con, $viewCheck_sql);
-//	$viewCheck = 0;
-//	setcookie("cooki_viewCheck", $viewCheck, time()+(60*60), "/");
-//}
+echo "{$idx} {$userID_idx}<br>";
+//게시글 추가 배열
+//$view_array = array($idx);
+//setcookie("cooki_boardIdx_view", serialize($view_array), time()+(60*60), "/");
+//$cooki_boardIdx_view_array = unserialize($_COOKIE['cooki_boardIdx_view']);
+//print_r($cooki_boardIdx_view_array);
+
+//array_push($view_array, 10);
+////	echo "{$view_array[0]}";
+//	print_r($view_array);
+
+$cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
+print_r($cookie_idx_view_array);
+if ($cookie_idx_view_array == "") {
+	//쿠키 없음 -> 그래서 쿠키를 set 해준당.
+	echo "no";
+	setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
+	$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+	mysqli_query($con, $viewCheck_sql);
+} else {
+	//쿠키 있음
+	echo "yes";
+	if (in_array($idx, $cookie_idx_view_array)) {
+		echo "이미 읽음";
+	} else {
+		echo "추가해야함";
+		array_push($cookie_idx_view_array, $idx);
+		setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
+		$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+		mysqli_query($con, $viewCheck_sql);
+	}
+}
 
 ?>
 <html>
@@ -59,7 +66,7 @@ setcookie("cooki_boardIdx", $row['idx'], time()+(60*60), "/");
 <body>
 <div class="all_width">
     <? include "../layout/header.php"; ?>
-<!--     <? include "../layout/nav.php"; ?> -->
+    <!--     <? include "../layout/nav.php"; ?> -->
     <section>
         <article class="col-xs-12">
             <div>
@@ -84,13 +91,79 @@ setcookie("cooki_boardIdx", $row['idx'], time()+(60*60), "/");
             </div>
             <div>
                 <h4>댓글리스트</h4>
-
+                <? include "commentList.php"; ?>
                 <div class="board_reply_list">
                     <ul>
-                        <li>댓글 리스트가 촤라락~</li>
-                    </ul>
+                        <?
+                        while ($cmt_row = mysqli_fetch_array($cmt_list_result)) {
+//                                        echo "cmt : ";
+//                                        print_r($cmt_row);
+//                                        echo "<br>";
+                        ?>
+                        <li>
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading"><?=$cmt_row['userID']?> <span class="cmt_date_size"><?=$cmt_row['commentDate']?></span></h4>
+                                <?=$cmt_row['comment']?>
+                            </div>
+                        </div>
+                        </li>
+                        <?
+                        }
+                        ?>
+                    </ul>	
                 </div>
+			<div class="board_reply_page">
+                    <ul class="pagination cmt_page_center">
+                        <?
+                        if ($cmt_start_page > $cmt_now_block) {
+                        $cmt_prev_page = $cmt_start_page - 1;
+                        ?>
+                        <li>
+                        <a href=<? echo "$PHP_SELF?page=$page&idx=$idx&cmt_page=$cmt_prev_page" ?>
+                            aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        </li>
+                        <?
+                        }
+                        for ($i = $cmt_start_page; $i <= $cmt_end_page; $i++) {
+                        if ($cmt_page != $i) {
+                        ?>
+                        <li>
+                        <a href=<? echo "$PHP_SELF?page=$page&idx=$idx&cmt_page=$i"?>
+                            ><?=$i?>
+                            <span class="sr-only"></span>
+                        </a>
+                        </li>
+                        <?
+                        } else {
+                        ?>
+                        <li class="active">
+                        <a href="#">
+                            <?=$i?>
+                            <span class="sr-only"></span>
+                        </a>
+                        </li>
+                        <?
+                        }
+                        }
+                        if ($cmt_now_block < $cmt_block_total) {
+                        $cmt_next_page = $cmt_end_page + 1;
+                        ?>
+                        <li>
+                        <a href=<? echo "$PHP_SELF?page=$page&idx=$idx&cmt_page=$cmt_next_page" ?>
+                            aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        </li>
+                        <?
+                        }
+                        ?>
+                    </ul>
+				</div>
             </div>
+				
             <div>
                 <h4>댓글작성</h4>
                 <div class="board_reply">
