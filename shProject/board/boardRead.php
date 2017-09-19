@@ -18,7 +18,7 @@ $row = mysqli_fetch_array($result);
 //조회수 -> 새로고침할때 조회수 안올라감 ㅋㅋ
 //쿠키를 사용해서 조회수 구현하기
 
-//유저idx랑 게시글idx를 쿠키에 저장	
+//유저idx랑 게시글idx를 쿠키에 저장
 $userID_idx = $row['member_idx'];
 
 echo "{$idx} {$userID_idx}<br>";
@@ -35,23 +35,23 @@ echo "{$idx} {$userID_idx}<br>";
 $cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
 print_r($cookie_idx_view_array);
 if ($cookie_idx_view_array == "") {
-	//쿠키 없음 -> 그래서 쿠키를 set 해준당.
-	echo "no";
-	setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
-	$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
-	mysqli_query($con, $viewCheck_sql);
+//쿠키 없음 -> 그래서 쿠키를 set 해준당.
+echo "no";
+setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
+$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+mysqli_query($con, $viewCheck_sql);
 } else {
-	//쿠키 있음
-	echo "yes";
-	if (in_array($idx, $cookie_idx_view_array)) {
-		echo "이미 읽음";
-	} else {
-		echo "추가해야함";
-		array_push($cookie_idx_view_array, $idx);
-		setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
-		$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
-		mysqli_query($con, $viewCheck_sql);
-	}
+//쿠키 있음
+echo "yes";
+if (in_array($idx, $cookie_idx_view_array)) {
+echo "이미 읽음";
+} else {
+echo "추가해야함";
+array_push($cookie_idx_view_array, $idx);
+setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
+$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+mysqli_query($con, $viewCheck_sql);
+}
 }
 
 ?>
@@ -92,13 +92,19 @@ if ($cookie_idx_view_array == "") {
             <div>
                 <h4>댓글리스트</h4>
                 <? include "commentList.php"; ?>
+
                 <div class="board_reply_list">
+                    <?
+                    if ($cmt_row_total == 0) {
+                    echo "작성된 댓글이 없습니다.";
+                    } else {
+                    ?>
                     <ul>
                         <?
                         while ($cmt_row = mysqli_fetch_array($cmt_list_result)) {
-//                                        echo "cmt : ";
-//                                        print_r($cmt_row);
-//                                        echo "<br>";
+                        //                                        echo "cmt : ";
+                        //                                        print_r($cmt_row);
+                        //                                        echo "<br>";
                         ?>
                         <li>
                         <div class="media">
@@ -111,11 +117,12 @@ if ($cookie_idx_view_array == "") {
                         <?
                         }
                         ?>
-                    </ul>	
+                    </ul>
                 </div>
-			<div class="board_reply_page">
+                <div class="board_reply_page">
                     <ul class="pagination cmt_page_center">
                         <?
+
                         if ($cmt_start_page > $cmt_now_block) {
                         $cmt_prev_page = $cmt_start_page - 1;
                         ?>
@@ -161,9 +168,12 @@ if ($cookie_idx_view_array == "") {
                         }
                         ?>
                     </ul>
-				</div>
+                    <?
+                    }
+                    ?>
+                </div>
             </div>
-				
+
             <div>
                 <h4>댓글작성</h4>
                 <div class="board_reply">
