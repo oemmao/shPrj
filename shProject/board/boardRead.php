@@ -43,12 +43,18 @@ mysqli_query($con, $viewCheck_sql);
 } else {
 //쿠키 있음
 echo "yes";
+print_r($cookie_idx_view_array);
 if (in_array($idx, $cookie_idx_view_array)) {
 echo "이미 읽음";
 } else {
-echo "추가해야함";
+echo "추가해야함<br>";
 array_push($cookie_idx_view_array, $idx);
+print_r($cookie_idx_view_array);
 setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
+$cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
+echo "<br>";
+print_r($cookie_idx_view_array);
+//setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
 $viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
 mysqli_query($con, $viewCheck_sql);
 }

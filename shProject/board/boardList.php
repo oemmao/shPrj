@@ -18,7 +18,7 @@ $board_total = mysqli_num_rows($result);
 
 //페이지 값 가져오기
 $page = ($_GET['page'])? $_GET['page'] : 1; //페이지
-$page_list = 3; //페이지당 게시글 수
+$page_list = 5; //페이지당 게시글 수
 $page_block = 3; //블록당 페이지 수
 
 //ceil 소수점 올림 함수

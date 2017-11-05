@@ -8,16 +8,21 @@ include "boardList.php";
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <title>welcome to my homepage</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="../css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<?
+$cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
+print_r($cookie_idx_view_array);
+?>
 <div class="all_width">
     <? include "../layout/header.php"; ?>
-    <? include "../layout/nav.php"; ?>
+<!--     <? include "../layout/nav.php"; ?> -->
     <section>
-        <article class="col-xs-10 article_line">
+        <article class="col-xs-12 article_line">
             <div class="list_size">
                 <h3>
                 <span>게시판 리스트</span>
@@ -29,11 +34,11 @@ include "boardList.php";
                 <table class="table">
                 <thead>
                 <tr>
-                    <th class="col-xs-1 text-center">번호</th>
+                    <th class="col-xs-1 text-center">No.</th>
                     <th class="col-xs-4 text-center">제목</th>
-                    <th class="col-xs-1 text-center">작성자</th>
+                    <th class="col-xs-2 text-center">작성</th>
                     <th class="col-xs-3 text-center">작성일</th>
-                    <th class="col-xs-1 text-center">조회수</th>
+                    <th class="col-xs-2 text-center">조회</th>
                 </tr>
                 </thead>
                 <?
