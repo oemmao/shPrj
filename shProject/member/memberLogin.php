@@ -38,9 +38,9 @@ if (empty($userID) || empty($userPW)) {
 //		$_COOKIE['cooki_userID'] = $row['userID'];
 
 
-		setcookie("cooki_id", $row['id'], time()+(60*60), "/");
-		setcookie("cooki_name", $row['userName'], time()+(60*60), "/");
-		setcookie("cooki_userID", $row['userID'], time()+(60*60), "/");
+		setcookie("cooki_user_idx", $row['id'], time()+(60*5), "/");
+		setcookie("cooki_name", $row['userName'], time()+(60*5), "/");
+		setcookie("cooki_userID", $row['userID'], time()+(60*5), "/");
 
 
 //		$userID_cookie = $row['u$_SESSION['userID'] = $row['userID'];serID'];

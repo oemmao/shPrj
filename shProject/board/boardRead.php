@@ -19,46 +19,63 @@ $row = mysqli_fetch_array($result);
 //쿠키를 사용해서 조회수 구현하기
 
 //유저idx랑 게시글idx를 쿠키에 저장
-$userID_idx = $row['member_idx'];
-
+$Witer_idx = $row['member_idx'];
+//로그인 유저ID값 가져옴
+$userID_idx = $_COOKIE['cooki_user_idx'];
 echo "{$idx} {$userID_idx}<br>";
 //게시글 추가 배열
 //$view_array = array($idx);
 //setcookie("cooki_boardIdx_view", serialize($view_array), time()+(60*60), "/");
 //$cooki_boardIdx_view_array = unserialize($_COOKIE['cooki_boardIdx_view']);
 //print_r($cooki_boardIdx_view_array);
-
+//echo "<br>";
 //array_push($view_array, 10);
 ////	echo "{$view_array[0]}";
 //	print_r($view_array);
 
-$cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
-print_r($cookie_idx_view_array);
-if ($cookie_idx_view_array == "") {
-//쿠키 없음 -> 그래서 쿠키를 set 해준당.
-echo "no";
-setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
-$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
-mysqli_query($con, $viewCheck_sql);
-} else {
-//쿠키 있음
-echo "yes";
-print_r($cookie_idx_view_array);
-if (in_array($idx, $cookie_idx_view_array)) {
-echo "이미 읽음";
-} else {
-echo "추가해야함<br>";
-array_push($cookie_idx_view_array, $idx);
-print_r($cookie_idx_view_array);
-setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
-$cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
-echo "<br>";
-print_r($cookie_idx_view_array);
-//setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
-$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
-mysqli_query($con, $viewCheck_sql);
+//게시글번호와 userID를 저장
+$cookie_data = $idx."_".$userID_idx;
+echo "{$cookie_data}<br>";
+
+//쿠키에 해당 값 유무 확인
+if (!$_COOKIE[$cookie_data]) { //없으면 쿠키셋 해주고, 조회수 올려줌.
+	echo "없어";
+	setcookie($cookie_data, $cookie_data, time()+(60*5), "/");
+	$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+	mysqli_query($con, $viewCheck_sql);
+} else { //있으면 조회수 안올림.
+	echo "있음";
 }
-}
+
+//$cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
+//print_r($cookie_idx_view_array);
+//if ($cookie_idx_view_array == "") {
+////쿠키 없음 -> 그래서 쿠키를 set 해준당.
+//echo "no";
+//setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*5), "/");
+//print_r($cookie_idx_view_array);
+//$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+//mysqli_query($con, $viewCheck_sql);
+//} else {
+////쿠키 있음
+//echo "yes ";
+////print_r($cookie_idx_view_array);
+//if (in_array($idx, $cookie_idx_view_array)) {
+//echo "이미 읽음";
+//} else {
+//echo "추가해야함<br>";
+//array_push($cookie_idx_view_array, $idx);
+////print_r($cookie_idx_view_array);
+//setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*5), "/");
+//
+//echo "<br>rrr ";
+//print_r($cookie_idx_view_array);
+//
+////setcookie("cookie_idx_view", serialize(array($idx)), time()+(60*60), "/");
+//$viewCheck_sql = "update boardInfo set textView=textView+1 where idx='$idx'";
+//mysqli_query($con, $viewCheck_sql);
+//}
+//}
 
 ?>
 <html>

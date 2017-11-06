@@ -15,8 +15,10 @@ include "boardList.php";
 </head>
 <body>
 <?
-$cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
-print_r($cookie_idx_view_array);
+//$cookie_user_idx = $_COOKIE['cooki_user_idx'];
+$cookie_view_arr = unserialize($_COOKIE['cookie_idx_view']);
+print_r($cookie_view_arr);
+print_r($_COOKIE);
 ?>
 <div class="all_width">
     <? include "../layout/header.php"; ?>
