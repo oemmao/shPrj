@@ -16,7 +16,7 @@
     <article class="col-xs-12" >
         <form id="memberLogin" method="post">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="form-group">
                     <label for="exampleInputEmail1">ID</label>
                     <input type="id" class="form-control" id="loginID" name="loginID" placeholder="ID를 입력하세요">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="form-group">
                     <label for="exampleInputPassword1">PW</label>
                     <input type="password" class="form-control" id="loginPW" name="loginPW" placeholder="비밀번호를 입력하세요">
@@ -41,10 +41,10 @@
 <!--             </div> -->
 <!--         </div> -->
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 form-group col-md-offset-4">
                 <div class="checkbox">
                     <label>
-                    <input type="checkbox"> 입력을 기억합니다
+                    <input type="checkbox" id="chk_remember" name="chk_remember" > 입력을 기억합니다
                     </label>
                 </div>
             </div>

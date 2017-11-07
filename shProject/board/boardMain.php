@@ -16,8 +16,8 @@ include "boardList.php";
 <body>
 <?
 //$cookie_user_idx = $_COOKIE['cooki_user_idx'];
-$cookie_view_arr = unserialize($_COOKIE['cookie_idx_view']);
-print_r($cookie_view_arr);
+//$cookie_view_arr = unserialize($_COOKIE['cookie_idx_view']);
+//print_r($cookie_view_arr);
 print_r($_COOKIE);
 ?>
 <div class="all_width">
