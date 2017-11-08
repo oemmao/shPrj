@@ -7,7 +7,7 @@
 <link href="../css/index.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<p>회원가입 페이지
+<p class="text-center">회원가입 페이지
 <section>
 <div class="all_width">
     <article class="col-xs-12">
@@ -18,35 +18,35 @@
         <!--                 <input type="email" class="form-control" id="inputEmail3" placeholder="Email"> -->
         <!--             </div> -->
         <!--         </div> -->
-        <div class="form-group">
-            <label for="inputID" class="col-sm-1 control-label">아이디</label>
+        <div class="form-group ">
+            <label for="inputID" class=" col-md-offset-4 col-sm-1 control-label">아이디</label>
             <div class="col-sm-3">
                 <input type="userid" class="form-control" id="inputID" name="inputID" isDuCheck="0" placeholder="아이디">
             </div>
-			<div class="col-sm-offset-2 col-sm-3 text-right">
-            <button type="button" class="col-sm-1 btn btn-default" id="duCheckID" >중복확인</button>
+			<div class="col-sm-1 text-right">
+            <button type="button" class="btn btn-default" id="duCheckID" >중복확인</button>
 			</div>
         </div>
         <div class="form-group">
-            <label for="inputPW" class="col-sm-1 control-label">비밀번호</label>
+            <label for="inputPW" class="col-sm-1 col-md-offset-4 control-label">비밀번호</label>
             <div class="col-sm-3">
                 <input type="password" class="form-control" id="inputPW" name="inputPW" placeholder="비밀번호">
             </div>
         </div>
         <div class="form-group">
-            <label for="inputPWCheck" class="col-sm-1 control-label">비밀번호 재확인</label>
+            <label for="inputPWCheck" class="col-sm-1 col-md-offset-4 control-label">비밀번호 재확인</label>
             <div class="col-sm-3">
                 <input type="password" class="form-control" id="inputPWCheck" name="inputPWCheck" placeholder="비밀번호 재확인">
             </div>
         </div>
         <div class="form-group">
-            <label for="inputName" class="col-sm-1 control-label">이름</label>
+            <label for="inputName" class="col-sm-1 col-md-offset-4 control-label">이름</label>
             <div class="col-sm-3">
                 <input type="username" class="form-control" id="inputName" name="inputName" placeholder="이름">
             </div>
         </div>
         <div class="form-group">
-            <label for="" class="col-sm-1 control-label">성별</label>
+            <label for="" class="col-sm-1 col-md-offset-4 control-label">성별</label>
             <div class="col-sm-3">
                 <label class="radio-inline">
                 <input type="radio" id="checkGender1" name="checkGender" value="man"> 남자
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-3 text-center">
+            <div class="col-sm-offset-4 col-sm-4 text-center">
                 <button type="submit" class="btn btn-warning" >가입하기</button>
 				<button type="button" class="btn btn-default" onclick="indexPage()" >메인으로</button>
             </div>

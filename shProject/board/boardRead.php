@@ -55,7 +55,7 @@ echo "{$cookie_data}<br>";
 //$cookie_data를 담기위해 배열 선언 
 $cookie_data_arr = array();
 //cookie_idx_view 쿠키의 배열 값을 가져오기 위해 변수 선언
-//쿠키에 문자열(String)으로 저장되어 있기 때문에, unserialize 해줘야 함.
+//쿠키에 문자열(String)로 저장되어 있기 때문에, unserialize 해줘야 함.
 $cookie_idx_view_array = unserialize($_COOKIE['cookie_idx_view']);
 
 //$_COOKIE['cookie_idx_view'] 생성 여부 확인

@@ -16,9 +16,11 @@ var updatePage = function() {
 var prevPage = function() {
 	document.location.href='http://sflower121.phps.kr/shProject/loginMain.php';
 }
+//탈퇴 페이지로 이동
 var deletePage = function() {
 	document.location.href='http://sflower121.phps.kr/shProject/member/memberDeleteForm.php';
 }
+//로그아웃 페이지로 이동
 var logoutPage = function() {
 	document.location.href='http://sflower121.phps.kr/shProject/member/memberLogout.php';
 }
@@ -74,19 +76,20 @@ $(function() {
 		alert('come memberInsert');
 		//form을 다음으로 넘기지 않기 위해 사용..
 		event.preventDefault();
+		//아이디 중복체크 여부 확인
 		if ($('#inputID').attr('isDuCheck') == 1) {
 			var isValid = false;
 			var userID = $('#inputID').val();
 			var userPW = $('#inputPW').val();
 			var userPWCheck = $('#inputPWCheck').val();
 			var userName = $('#inputName').val();
+			//라디오버튼 값 가져오는 방법
 			var userGender = $(":input:radio[name=checkGender]:checked").val();
 			var inputData = {	"userID" : userID,
 								"userPW" : userPW,
 								"userPWCheck" : userPWCheck,
 								"userName" : userName,
 								"userGender" : userGender	};
-			
 			if (userID == "") {
 				alert('아이디를 입력해 주시기 바랍니다.');	
 			} else if (userPW == "") {
@@ -108,7 +111,7 @@ $(function() {
 					data: inputData,	
 					success: function(result) {
 						var result = result;
-						isValid = result.result;
+						var isValid = result.result;
 //						alert(isValid);
 //						alert(result.message);
 						if (isValid) {
@@ -120,7 +123,13 @@ $(function() {
 							alert(result.message);
 						}
 					}
+//					error:function(request,status,error){
+//						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+//					}
+
 				})
+
+
 			}
 			if (!isValid) {
 				event.preventDefault();
@@ -133,8 +142,10 @@ $(function() {
 
 	});
 	//회원 로그인
+	//form 전송을 하기 위해 submit 이벤트 사용
 	$('#memberLogin').submit(function(event){
 		alert("come memberLogin");
+		//form을 다시 불러오는 것을 방지하기 위해 event.preventDefault() 호출
 		event.preventDefault();
 		var userID = $('#loginID').val();
 		var userPW = $('#loginPW').val();

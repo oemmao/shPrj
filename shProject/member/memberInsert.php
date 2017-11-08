@@ -50,8 +50,11 @@ if (empty($userID)) {
 	$_SESSION['isLogin'] = true;
 	$_SESSION['userID'] = $user_idx['userID'];
 	$_SESSION['userName'] = $user_idx['userName'];
-	ㄴ$_SESSION['viewCheck'] = true;
+	$_SESSION['viewCheck'] = true;
 
+	setcookie("cooki_user_idx", $row['id'], time()+(60*5), "/");
+	setcookie("cooki_name", $row['userName'], time()+(60*5), "/");
+	setcookie("cooki_userID", $row['userID'], time()+(60*5), "/");
 
 	$result["result"] = true;
 	//$result["message"] = $idx;
