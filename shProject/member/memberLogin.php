@@ -7,6 +7,7 @@ include '../db_Info.php';
 
 $userID = $_POST['userID'];
 $userPW = $_POST['userPW'];
+$chk_remember = $_POST['chk_remember'];
 
 if (empty($userID) || empty($userPW)) {
 	$result["result"] = false;
@@ -37,11 +38,10 @@ if (empty($userID) || empty($userPW)) {
 //		$_COOKIE['cooki_name'] = $row['userName'];
 //		$_COOKIE['cooki_userID'] = $row['userID'];
 
-
 		setcookie("cooki_user_idx", $row['id'], time()+(60*5), "/");
 		setcookie("cooki_name", $row['userName'], time()+(60*5), "/");
 		setcookie("cooki_userID", $row['userID'], time()+(60*5), "/");
-
+		setcookie("cooki_userID_remember", $chk_remember, time()+(60*5), "/");
 
 //		$userID_cookie = $row['u$_SESSION['userID'] = $row['userID'];serID'];
 //		setcookie('$userID_cookie', 'LoginCookie', time()+60*60*1);

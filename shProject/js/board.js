@@ -25,7 +25,7 @@ $(function(){
 		var isValid = false;
 		var form = $('#writingForm')[0];
         var formData = new FormData(form);
-        formData.append("inputFile", $("#inputFile")[0].files[0]);
+        formData.append("fileToUpload", $("#fileToUpload")[0].files[0]);
 		formData.append("inputSubject", $('#inputSubject').val());
 		formData.append("inputContent", $('#inputContent').val());
 

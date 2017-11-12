@@ -19,7 +19,25 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="form-group">
                     <label for="exampleInputEmail1">ID</label>
+<?
+					echo "<br>";
+					print_r($_COOKIE);
+					print_r($_COOKIE['cooki_userID_remember']);
+					echo"<br>";
+					//type check 방법 echo gettype($변수명);
+					echo gettype($_COOKIE['cooki_userID_remember']);
+					//쿠키값이 String을 저장되기 때문에, 문자를 구분해줘야함.
+					if ($_COOKIE['cooki_userID_remember'] == "true") {
+						$cookie_userID = $_COOKIE['cooki_userID'];
+?>
+ 					<input type="id" class="form-control" id="loginID" name="loginID" value="<?= $cookie_userID ?>">
+<?
+					} else {	
+?>
                     <input type="id" class="form-control" id="loginID" name="loginID" placeholder="ID를 입력하세요">
+<?
+					}
+?>
                 </div>
             </div>
         </div>
@@ -44,8 +62,19 @@
             <div class="col-md-4 form-group col-md-offset-4">
                 <div class="checkbox">
                     <label>
+<?
+					if ($_COOKIE['cooki_userID_remember'] == "true") {
+?>
+					<input type="checkbox" id="chk_remember" name="chk_remember" checked="checked"> 입력을 기억합니다
+                    </label>
+<?
+					} else {
+?>
                     <input type="checkbox" id="chk_remember" name="chk_remember" > 입력을 기억합니다
                     </label>
+<?
+					}
+?>
                 </div>
             </div>
         </div>

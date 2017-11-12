@@ -11,7 +11,7 @@ $userID = $_SESSION['userID'];
 //$userName = $_SESSION['userName'];
 $subject = $_POST['inputSubject'];
 $content = $_POST['inputContent'];
-$file = $_FILES['inputFile'];
+$file = $_FILES['fileToUpload'];
 
 if (empty(subject)) {
 	$result['result'] = false;

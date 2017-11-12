@@ -149,9 +149,12 @@ $(function() {
 		event.preventDefault();
 		var userID = $('#loginID').val();
 		var userPW = $('#loginPW').val();
+		//Checkbox의 체크여부를 true/false로 반환
+		var chk_remember = $("input:checkbox[id='chk_remember']").is(":checked");
 		var inputData = { "userID" : userID, 
-						  "userPW" : userPW };
-		
+						  "userPW" : userPW,
+						  "chk_remember" : chk_remember	};
+		console.log(inputData);	
 		if (userID == "" || userPW == "") {
 			alert('아이디 또는 비밀번호를 입력해 주시기 바랍니다.');
 			event.preventDefault();
